@@ -14,59 +14,73 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
+ * The Class GenericHibernateDao.
+ * 
+ * @param <T>
+ *            the generic type
  * @author Florencio Sarmiento
  * @since 1.0
  */
-public abstract class GenericHibernateDao<T extends AbstractEntity> extends HibernateDaoSupport
-        implements GenericDao<T> {
+public abstract class GenericHibernateDao<T extends AbstractEntity> extends
+		HibernateDaoSupport implements GenericDao<T> {
 
-    private Class<T> entityClass;
+	private Class<T> entityClass;
 
-    public GenericHibernateDao(Class<T> entityClass) {
-        this.entityClass = entityClass;
-    }
+	/**
+	 * Instantiates a new generic hibernate dao.
+	 * 
+	 * @param entityClass
+	 *            the entity class
+	 */
+	public GenericHibernateDao(Class<T> entityClass) {
+		this.entityClass = entityClass;
+	}
 
-    @Transactional(propagation=Propagation.REQUIRED, readOnly=false)
-    public void saveOrUpdate(T entity) {
-        getHibernateTemplate().saveOrUpdate(entity);
-    }
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public void saveOrUpdate(T entity) {
+		getHibernateTemplate().saveOrUpdate(entity);
+	}
 
-    @Transactional(propagation=Propagation.REQUIRED, readOnly=false)
-    public void delete(T entity) {
-        getHibernateTemplate().delete(entity);
-    }
-    
-    @Transactional(propagation=Propagation.REQUIRED, readOnly=true, noRollbackFor=EntityNotFoundException.class)
-    public T getById(Long id) {
-    	return getByColumnValue("id", id);
-    }
-    
-    @Transactional(propagation=Propagation.REQUIRED, readOnly=true, noRollbackFor=EntityNotFoundException.class)
-    public T getByColumnValue(final String column, final Object value) {
-        T entity = (T) getHibernateTemplate().execute(new HibernateCallback() {
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+	public void delete(T entity) {
+		getHibernateTemplate().delete(entity);
+	}
 
-            public Object doInHibernate(Session session) throws HibernateException,
-                    SQLException {
-                return session.createCriteria(entityClass).add(Restrictions.eq(column, value)).uniqueResult();
-            }
-        });
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = EntityNotFoundException.class)
+	public T getById(Long id) {
+		return getByColumnValue("id", id);
+	}
 
-        if (entity == null) {
-            throw new EntityNotFoundException(entityClass, column, value);
-        }
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = EntityNotFoundException.class)
+	public T getByColumnValue(final String column, final Object value) {
 
-        return entity;
-    }
+		@SuppressWarnings("unchecked")
+		T entity = (T) getHibernateTemplate().execute(new HibernateCallback() {
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-    public List<T> listAll() {
-        return (List<T>) getHibernateTemplate().execute(new HibernateCallback() {
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				return session.createCriteria(entityClass)
+						.add(Restrictions.eq(column, value)).uniqueResult();
+			}
+		});
 
-            public Object doInHibernate(Session session) throws HibernateException,
-                    SQLException {
-                return session.createCriteria(entityClass).list();
-            }
-        });
-    }
+		if (entity == null) {
+			throw new EntityNotFoundException(entityClass, column, value);
+		}
+
+		return entity;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public List<T> listAll() {
+		return (List<T>) getHibernateTemplate().execute(
+
+		new HibernateCallback() {
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				return session.createCriteria(entityClass).list();
+			}
+		});
+	}
 }

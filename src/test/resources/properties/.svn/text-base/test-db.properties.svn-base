@@ -1,0 +1,6 @@
+db.dialect=org.hibernate.dialect.MySQLDialect
+db.hbm2ddl=create-drop
+db.driver=com.mysql.jdbc.Driver
+db.url=jdbc:mysql://localhost:3306/c1squared_test
+db.username=c1squared_test
+db.password=c1squared_test

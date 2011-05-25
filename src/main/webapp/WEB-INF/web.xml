@@ -3,8 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-	<description><![CDATA[Test Invoicing System]]></description>
-	<display-name>Test Invoicing System</display-name>
+	<description><![CDATA[Invoicing System]]></description>
+	<display-name>Invoicing System</display-name>
 
 	<!-- Required to autowire zk components to spring beans --> 
 	<listener>
@@ -22,7 +22,7 @@
 		and Filters -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/spring/root-context.xml</param-value>
+		<param-value>classpath*:spring/*-context.xml</param-value>
 	</context-param>
 
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
