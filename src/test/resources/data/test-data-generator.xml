@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<setup xmlns="http://databene.org/benerator/0.6.5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://databene.org/benerator/0.6.5 http://databene.org/benerator-0.6.5.xsd">
+
+	<import defaults="true" platforms="db"/>
+
+	<database id="dbGenerator" url="jdbc:mysql://localhost:3306/invoicing_test" catalog="invoicing_test" driver="com.mysql.jdbc.Driver"
+		user="invoicing" password="invoicing" batch="false"/>
+
+	<generate type="customer" count="100">
+		<id name="id" mode="ignored"/>
+		<attribute name="account" type="string" maxLength="32"/>
+		<attribute name="name" type="string" maxLength="64"/>
+		<consumer ref="dbGenerator"/>
+	</generate>
+</setup>  

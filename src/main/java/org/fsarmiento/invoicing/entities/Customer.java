@@ -1,6 +1,6 @@
 package org.fsarmiento.invoicing.entities;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 /**
  * The Class Customer.
@@ -8,11 +8,13 @@ import javax.persistence.Entity;
  * @author Florencio Sarmiento
  * @since 1.0
  */
-@Entity
+@Entity(name = "customer")
 public class Customer extends AbstractEntity {
 
+	@Column(length = 32)
 	private String account;
 
+	@Column(length = 64)
 	private String name;
 
 	/**
