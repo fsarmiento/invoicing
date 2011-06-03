@@ -24,6 +24,7 @@
 
     <util:list id="annotatedClasses" >
         <value>org.fsarmiento.invoicing.entities.Customer</value>
+        <value>org.fsarmiento.invoicing.entities.Product</value>
     </util:list>
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
@@ -38,7 +39,7 @@
 
     <bean id="customerDao" class="org.fsarmiento.invoicing.customer.CustomerHibernateDao">
         <constructor-arg>
-            <value>org.fsarmiento.invoicing.entities.Customer</value>
+            <value>org.fsarmiento.invoicing.entities.Customer</value>            
         </constructor-arg>
     </bean>
 

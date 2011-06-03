@@ -2,8 +2,7 @@ package org.fsarmiento.invoicing.customer;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,8 +27,12 @@ public class CustomerHibernateDaoTest extends
 
 	@Test
 	public void saveCustomer() {
-		Customer customer = new Customer();
-		customer.setName("test");
+		String name = "test1";
+		String account = "testAccount";
+		
+		Customer customer = new Customer();		
+		customer.setName(name);
+		customer.setAccount(account);
 		assertThat(customer.getId(), nullValue());
 
 		customerDao.saveOrUpdate(customer);
@@ -62,18 +65,33 @@ public class CustomerHibernateDaoTest extends
 		assertNotNull(customer);
 		assertThat(customer.getAccount(), equalTo(testAccount));
 	}
-	
+
 	@Test
-	public void listCustomer() {
+	public void listCustomerByName() {
 		String expName = "duplicated name";
-		List<Customer> customers = customerDao.listByColumnValue("name", expName);
+		List<Customer> customers = customerDao.listByColumnValue("name",
+				expName);
 		assertNotNull(customers);
-		
+
 		int expSize = 2;
 		assertThat(customers.size(), equalTo(expSize));
-		
+
 		for (Customer customer : customers) {
 			assertThat(customer.getName(), equalTo(expName));
+		}
+	}
+
+	@Test
+	public void listCustomerOnHold() {
+		List<Customer> customers = customerDao.listByColumnValue("onHold",
+				Boolean.TRUE);
+		assertNotNull(customers);
+
+		int expSize = 2;
+		assertThat(customers.size(), equalTo(expSize));
+
+		for (Customer customer : customers) {
+			assertTrue(customer.getOnHold());
 		}
 	}
 
