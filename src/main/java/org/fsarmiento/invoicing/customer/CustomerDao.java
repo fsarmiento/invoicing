@@ -10,5 +10,6 @@ import org.fsarmiento.invoicing.generics.db.GenericDao;
  *            the generic type
  */
 public interface CustomerDao<T extends Customer> extends GenericDao<T> {
-
+	
+	Customer getByAccount(String account);
 }

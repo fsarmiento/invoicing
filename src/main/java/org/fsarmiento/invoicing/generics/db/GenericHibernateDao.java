@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Florencio Sarmiento
  * @since 1.0
  */
+@Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = EntityNotFoundException.class)
 public abstract class GenericHibernateDao<T extends AbstractEntity> extends
 		HibernateDaoSupport implements GenericDao<T> {
 
@@ -46,33 +47,35 @@ public abstract class GenericHibernateDao<T extends AbstractEntity> extends
 		getHibernateTemplate().delete(entity);
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = EntityNotFoundException.class)
 	public T getById(Long id) {
 		return getByColumnValue("id", id);
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = EntityNotFoundException.class)
 	public T getByColumnValue(final String column, final Object value) {
+		List<T> entities = listByColumnValue(column, value);
+		return entities.get(0);
+	}
+	
+	public List<T> listByColumnValue(final String column, final Object value) {
 
 		@SuppressWarnings("unchecked")
-		T entity = (T) getHibernateTemplate().execute(new HibernateCallback() {
+		List<T> entities = (List<T>) getHibernateTemplate().execute(new HibernateCallback() {
 
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				return session.createCriteria(entityClass)
-						.add(Restrictions.eq(column, value)).uniqueResult();
+						.add(Restrictions.eq(column, value)).list();
 			}
 		});
 
-		if (entity == null) {
+		if (entities == null || entities.isEmpty()) {
 			throw new EntityNotFoundException(entityClass, column, value);
 		}
 
-		return entity;
+		return entities;
 	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<T> listAll() {
 		return (List<T>) getHibernateTemplate().execute(
 

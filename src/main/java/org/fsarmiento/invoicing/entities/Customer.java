@@ -2,6 +2,8 @@ package org.fsarmiento.invoicing.entities;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.Index;
+
 /**
  * The Class Customer.
  * 
@@ -11,11 +13,16 @@ import javax.persistence.*;
 @Entity(name = "customer")
 public class Customer extends AbstractEntity {
 
-	@Column(length = 32)
+	/** The account. */
+	@Column(length = 16, unique = true, nullable = false)
+	@Index(name = "account_index")
 	private String account;
 
 	@Column(length = 64)
 	private String name;
+
+	@Column(columnDefinition = "tinyint(1) default 0")
+	private Boolean onHold = Boolean.FALSE;
 
 	/**
 	 * Gets the account.
@@ -29,7 +36,7 @@ public class Customer extends AbstractEntity {
 	/**
 	 * Sets the account.
 	 * 
-	 * @param account
+	 * @param accounttrue
 	 *            the new account
 	 */
 	public void setAccount(String account) {
@@ -53,5 +60,24 @@ public class Customer extends AbstractEntity {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * Gets the on hold.
+	 * 
+	 * @return the on hold
+	 */
+	public Boolean getOnHold() {
+		return onHold == null ? Boolean.FALSE : onHold;
+	}
+
+	/**
+	 * Sets the on hold.
+	 * 
+	 * @param onHold
+	 *            the new on hold
+	 */
+	public void setOnHold(Boolean onHold) {
+		this.onHold = onHold;
 	}
 }
