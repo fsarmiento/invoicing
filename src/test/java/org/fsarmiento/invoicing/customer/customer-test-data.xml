@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<customer id="1" account="test account1" name="test name1"/>
+	<customer id="2" account="test account2" name="duplicated name"/>
+	<customer id="3" account="test account3" name="duplicated name"/>
+</dataset>
