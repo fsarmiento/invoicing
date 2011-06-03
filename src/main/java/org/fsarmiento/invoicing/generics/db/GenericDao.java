@@ -49,7 +49,16 @@ public interface GenericDao<T extends AbstractEntity> {
 	 * @return the by column value
 	 */
 	T getByColumnValue(String column, Object value);
-	
+
+	/**
+	 * List by column value.
+	 * 
+	 * @param column
+	 *            the column
+	 * @param value
+	 *            the value
+	 * @return the list
+	 */
 	List<T> listByColumnValue(String column, Object value);
 
 	/**

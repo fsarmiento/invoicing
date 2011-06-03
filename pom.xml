@@ -457,7 +457,7 @@
 					</connectors>
 				</configuration>
 			</plugin>
-			<plugin>
+<!-- 			<plugin>
 				<groupId>org.databene</groupId>
 				<artifactId>maven-benerator-plugin</artifactId>
 				<version>0.6.5</version>
@@ -472,7 +472,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 		</plugins>
 	</build>
 </project>
