@@ -24,6 +24,9 @@
 
     <util:list id="annotatedClasses" >
         <value>org.fsarmiento.invoicing.entities.Customer</value>
+        <value>org.fsarmiento.invoicing.entities.Address</value>
+        <value>org.fsarmiento.invoicing.entities.AddressType</value>
+        <value>org.fsarmiento.invoicing.entities.CustomerAddress</value>
         <value>org.fsarmiento.invoicing.entities.Product</value>
     </util:list>
 
@@ -36,11 +39,5 @@
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
     <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager"/>
-
-    <bean id="customerDao" class="org.fsarmiento.invoicing.customer.CustomerHibernateDao">
-        <constructor-arg>
-            <value>org.fsarmiento.invoicing.entities.Customer</value>            
-        </constructor-arg>
-    </bean>
 
 </beans>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<product id="1" productCode="PRODUCT1" description="test product 1" unitOfMeasure="EACH" unitPrice="2300.00" vatRate="20.00"/>
+	<product id="2" productCode="PRODUCT2" description="test product 2" unitOfMeasure="EACH" unitPrice="100.00" vatRate="20.00"/>
+	<product id="3" productCode="PRODUCT3" description="test product 3" unitOfMeasure="THOU" unitPrice="500.00" vatRate="20.00"/>
+</dataset>

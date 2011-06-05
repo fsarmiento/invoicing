@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<address_type id="1" type="SHIPPING" description="shipping address"/>
+	<address_type id="2" type="BILLING" description="billing address"/>
+	
+	<address id="1" address1="1 Test Road" address2="" address3="" city="No Bug City" county="Success County" postcode="AB1 3CD" country=""/>
+	<address id="2" address1="2 Another Road" address2="Along Test Address" address3="" city="Bright City" county="Bucks" postcode="CD21 4EF" country="United Kingdom"/>
+	<address id="3" address1="7 Paris Road" address2="" address3="" city="Paris" county="" postcode="12345" country="France"/>
+
+</dataset>

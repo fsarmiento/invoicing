@@ -6,10 +6,17 @@ import org.fsarmiento.invoicing.generics.db.GenericDao;
 /**
  * The Interface CustomerDao.
  * 
- * @param <T>
- *            the generic type
+ * @author Florencio Sarmiento
+ * @since 1.0
  */
-public interface CustomerDao<T extends Customer> extends GenericDao<T> {
-	
+public interface CustomerDao extends GenericDao<Customer> {
+
+	/**
+	 * Gets the by account.
+	 * 
+	 * @param account
+	 *            the account
+	 * @return the by account
+	 */
 	Customer getByAccount(String account);
 }

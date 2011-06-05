@@ -13,7 +13,6 @@ import org.hibernate.annotations.Index;
 @Entity(name = "customer")
 public class Customer extends AbstractEntity {
 
-	/** The account. */
 	@Column(length = 16, unique = true, nullable = false)
 	@Index(name = "account_index")
 	private String account;

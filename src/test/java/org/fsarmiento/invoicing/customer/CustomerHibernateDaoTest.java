@@ -1,18 +1,14 @@
 package org.fsarmiento.invoicing.customer;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-import org.fsarmiento.invoicing.entities.AbstractHibernateDaoTest;
-import org.fsarmiento.invoicing.entities.Customer;
+import org.fsarmiento.invoicing.entities.*;
 import org.fsarmiento.invoicing.exception.EntityNotFoundException;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.annotation.ExpectedException;
 
 /**
@@ -22,15 +18,14 @@ public class CustomerHibernateDaoTest extends
 		AbstractHibernateDaoTest<Customer> {
 
 	@Autowired
-	@Qualifier("customerDao")
-	private CustomerDao<Customer> customerDao;
+	private CustomerDao customerDao;
 
 	@Test
 	public void saveCustomer() {
 		String name = "test1";
 		String account = "testAccount";
-		
-		Customer customer = new Customer();		
+
+		Customer customer = new Customer();
 		customer.setName(name);
 		customer.setAccount(account);
 		assertThat(customer.getId(), nullValue());
@@ -50,6 +45,17 @@ public class CustomerHibernateDaoTest extends
 
 		customer = customerDao.getById(customer.getId());
 		assertThat(customer.getName(), equalTo(newName));
+	}
+
+	@Test
+	@ExpectedException(EntityNotFoundException.class)
+	public void deleteCustomer() {
+		Customer customer = customerDao.getById(new Long(1));
+		assertNotNull(customer);
+
+		customerDao.delete(customer);
+
+		customer = customerDao.getById(new Long(1));
 	}
 
 	@Test

@@ -1,32 +1,27 @@
 package org.fsarmiento.invoicing.customer;
 
 import org.fsarmiento.invoicing.entities.Customer;
-import org.fsarmiento.invoicing.exception.EntityNotFoundException;
 import org.fsarmiento.invoicing.generics.db.GenericHibernateDao;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Repository;
 
 /**
  * The Class CustomerHibernateDao.
  * 
- * @param <T>
- *            the generic type
  * @author Florencio Sarmiento
  * @since 1.0
  */
-public class CustomerHibernateDao<T extends Customer> extends
-		GenericHibernateDao<T> implements CustomerDao<T> {
+@Repository("customerDao")
+public class CustomerHibernateDao extends GenericHibernateDao<Customer>
+		implements CustomerDao {
 
 	/**
 	 * Instantiates a new customer hibernate dao.
 	 * 
-	 * @param entityClass
-	 *            the entity class
 	 */
-	public CustomerHibernateDao(Class<T> entityClass) {
-		super(entityClass);
+	public CustomerHibernateDao() {
+		super(Customer.class);
 	}
-	
+
 	public Customer getByAccount(String account) {
 		return getByColumnValue("account", account);
 	}

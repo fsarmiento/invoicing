@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.Index;
+
 /**
  * The Class Product.
  * 
@@ -14,6 +16,7 @@ import javax.persistence.*;
 public class Product extends AbstractEntity {
 
 	@Column(length = 32, nullable = false, unique = true)
+	@Index(name = "product_index")
 	private String productCode;
 
 	@Column(length = 64)
@@ -22,8 +25,10 @@ public class Product extends AbstractEntity {
 	@Column(length = 10)
 	private String unitOfMeasure;
 
+	@Column(precision = 19, scale = 2)
 	private BigDecimal unitPrice;
 
+	@Column(precision = 6, scale = 2)
 	private BigDecimal vatRate;
 
 	/**
@@ -89,7 +94,7 @@ public class Product extends AbstractEntity {
 	 * @return the unit price
 	 */
 	public BigDecimal getUnitPrice() {
-		return unitPrice;
+		return unitPrice == null ? BigDecimal.ZERO : unitPrice;
 	}
 
 	/**
@@ -108,7 +113,7 @@ public class Product extends AbstractEntity {
 	 * @return the vat rate
 	 */
 	public BigDecimal getVatRate() {
-		return vatRate;
+		return vatRate == null ? BigDecimal.ZERO : vatRate;
 	}
 
 	/**
