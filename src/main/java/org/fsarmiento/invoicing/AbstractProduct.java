@@ -1,10 +1,9 @@
-package org.fsarmiento.invoicing.entities;
+package org.fsarmiento.invoicing;
 
 import java.math.BigDecimal;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.Index;
 
 /**
  * The Class Product.
@@ -12,20 +11,18 @@ import org.hibernate.annotations.Index;
  * @author Florencio Sarmiento
  * @since 1.0
  */
-@Entity(name = "product")
-public class Product extends AbstractEntity {
+@MappedSuperclass
+public abstract class AbstractProduct extends AbstractEntity {
 
-	@Column(length = 32, nullable = false, unique = true)
-	@Index(name = "product_index")
+	@Column(length = 32, nullable = false)
 	private String productCode;
 
-	@Column(length = 64)
+	@Column(length = 128)
 	private String description;
 
 	@Column(length = 10)
 	private String unitOfMeasure;
 
-	@Column(precision = 19, scale = 2)
 	private BigDecimal unitPrice;
 
 	@Column(precision = 6, scale = 2)

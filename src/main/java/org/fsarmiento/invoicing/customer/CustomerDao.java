@@ -1,7 +1,6 @@
 package org.fsarmiento.invoicing.customer;
 
-import org.fsarmiento.invoicing.entities.Customer;
-import org.fsarmiento.invoicing.generics.db.GenericDao;
+import org.fsarmiento.invoicing.GenericDao;
 
 /**
  * The Interface CustomerDao.

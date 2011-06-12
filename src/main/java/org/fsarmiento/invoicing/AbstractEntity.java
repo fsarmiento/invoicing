@@ -1,11 +1,8 @@
-package org.fsarmiento.invoicing.entities;
+package org.fsarmiento.invoicing;
 
 import java.io.Serializable;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 /**
  * The Class AbstractEntity.
@@ -35,7 +32,7 @@ public abstract class AbstractEntity implements Serializable {
 	 * @param id
 	 *            the new id
 	 */
-	public void setId(Long id) {
+	private void setId(Long id) {
 		this.id = id;
 	}
 }

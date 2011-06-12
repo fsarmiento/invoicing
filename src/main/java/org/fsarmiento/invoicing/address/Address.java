@@ -1,7 +1,8 @@
-package org.fsarmiento.invoicing.entities;
+package org.fsarmiento.invoicing.address;
 
 import javax.persistence.*;
 
+import org.fsarmiento.invoicing.AbstractEntity;
 
 /**
  * The Class Address.
@@ -19,9 +20,6 @@ public class Address extends AbstractEntity {
 	private String address2;
 
 	@Column(length = 64)
-	private String address3;
-
-	@Column(length = 64)
 	private String city;
 
 	@Column(length = 64)
@@ -32,6 +30,12 @@ public class Address extends AbstractEntity {
 
 	@Column(length = 64)
 	private String country;
+
+	@Column(length = 20)
+	private String telNo;
+
+	@Column(length = 20)
+	private String faxNo;
 
 	/**
 	 * Gets the address1.
@@ -69,25 +73,6 @@ public class Address extends AbstractEntity {
 	 */
 	public void setAddress2(String address2) {
 		this.address2 = address2;
-	}
-
-	/**
-	 * Gets the address3.
-	 * 
-	 * @return the address3
-	 */
-	public String getAddress3() {
-		return address3;
-	}
-
-	/**
-	 * Sets the address3.
-	 * 
-	 * @param address3
-	 *            the new address3
-	 */
-	public void setAddress3(String address3) {
-		this.address3 = address3;
 	}
 
 	/**
@@ -164,6 +149,44 @@ public class Address extends AbstractEntity {
 	 */
 	public void setCountry(String country) {
 		this.country = country;
+	}
+
+	/**
+	 * Gets the tel no.
+	 * 
+	 * @return the tel no
+	 */
+	public String getTelNo() {
+		return telNo;
+	}
+
+	/**
+	 * Sets the tel no.
+	 * 
+	 * @param telNo
+	 *            the new tel no
+	 */
+	public void setTelNo(String telNo) {
+		this.telNo = telNo;
+	}
+
+	/**
+	 * Gets the fax no.
+	 * 
+	 * @return the fax no
+	 */
+	public String getFaxNo() {
+		return faxNo;
+	}
+
+	/**
+	 * Sets the fax no.
+	 * 
+	 * @param faxNo
+	 *            the new fax no
+	 */
+	public void setFaxNo(String faxNo) {
+		this.faxNo = faxNo;
 	}
 
 }

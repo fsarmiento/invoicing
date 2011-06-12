@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<dataset>
-	<customer id="1" account="ACCOUNT1" name="Mr Good Payer" onHold="false"/>
-	<customer id="2" account="ACCOUNT2" name="Mr Bad Payer" onHold="true"/>
-
-	<customer_address customer_id="1" address_id="1" addressType_id="1" dateFrom="2010-01-01" lastUpdated="2011-06-25"/>
-	<customer_address customer_id="1" address_id="1" addressType_id="2" dateFrom="2010-01-01" lastUpdated="2011-06-25"/>
-</dataset>

@@ -5,7 +5,8 @@ import static org.junit.Assert.*;
 
 import java.util.*;
 
-import org.fsarmiento.invoicing.entities.*;
+import org.fsarmiento.invoicing.*;
+import org.fsarmiento.invoicing.address.Address;
 import org.fsarmiento.invoicing.exception.EntityNotFoundException;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,34 @@ public class CustomerHibernateDaoTest extends
 	}
 
 	@Test
+	public void updateCustomerAndAddress() {
+		Customer customer = customerDao.getById(new Long(1));
+		assertThat(customer.getName(), equalTo("test name1"));
+
+		Address address = customer.getBillingAddress();
+		assertNotNull(address);
+		assertThat(address.getAddress1(), equalTo("1 Test Road"));
+		assertThat(address.getCity(), equalTo("No Bug City"));
+
+		String newName = "New Name";
+		customer.setName(newName);
+
+		String newAddress1 = "2 Success Road";
+		String newCity = "Bugless City";
+		address.setAddress1(newAddress1);
+		address.setCity(newCity);
+		customer.setBillingAddress(address);
+
+		customerDao.saveOrUpdate(customer);
+
+		customer = customerDao.getById(customer.getId());
+		assertThat(customer.getName(), equalTo(newName));
+
+		Address updatedAddress = customer.getBillingAddress();
+		assertThat(updatedAddress, equalTo(address));
+	}
+
+	@Test
 	@ExpectedException(EntityNotFoundException.class)
 	public void deleteCustomer() {
 		Customer customer = customerDao.getById(new Long(1));
@@ -66,7 +95,7 @@ public class CustomerHibernateDaoTest extends
 
 	@Test
 	public void getCustomerByAccount() {
-		String testAccount = "test account1";
+		String testAccount = "ACCOUNT1";
 		Customer customer = customerDao.getByAccount(testAccount);
 		assertNotNull(customer);
 		assertThat(customer.getAccount(), equalTo(testAccount));

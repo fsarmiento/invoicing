@@ -208,7 +208,7 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>org.hibernate.ejb-library</artifactId>
 			<type>libd</type>
-			<version>3.4.0.GA</version>
+			<version>3.4.0.GA-A</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
@@ -302,6 +302,12 @@
 				</dependency>
 			</dependencies>
 		</profile>
+		<profile>
+			<id>development</id>
+			<properties>
+				<db.properties>dev-db.properties</db.properties>
+			</properties>
+		</profile>
 	</profiles>
 
 	<repositories>
@@ -358,7 +364,7 @@
 			</testResource>
 			<testResource>
 				<directory>src/test/java</directory>
-				<filtering>true</filtering>				
+				<filtering>true</filtering>
 				<excludes>
 					<exclude>**/*.java</exclude>
 				</excludes>
@@ -457,22 +463,10 @@
 					</connectors>
 				</configuration>
 			</plugin>
-<!-- 			<plugin>
-				<groupId>org.databene</groupId>
-				<artifactId>maven-benerator-plugin</artifactId>
-				<version>0.6.5</version>
-				<configuration>
-					<descriptor>src/test/resources/data/test-data-generator.xml</descriptor>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>compile</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin> -->
+			<!-- <plugin> <groupId>org.databene</groupId> <artifactId>maven-benerator-plugin</artifactId> 
+				<version>0.6.5</version> <configuration> <descriptor>src/test/resources/data/test-data-generator.xml</descriptor> 
+				</configuration> <executions> <execution> <phase>compile</phase> <goals> 
+				<goal>generate</goal> </goals> </execution> </executions> </plugin> -->
 		</plugins>
 	</build>
 </project>

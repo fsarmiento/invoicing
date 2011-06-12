@@ -1,7 +1,8 @@
-package org.fsarmiento.invoicing.entities;
+package org.fsarmiento.invoicing.address;
 
 import javax.persistence.*;
 
+import org.fsarmiento.invoicing.AbstractEntity;
 import org.hibernate.annotations.Index;
 
 /**
@@ -13,7 +14,7 @@ import org.hibernate.annotations.Index;
 @Entity(name = "address_type")
 public class AddressType extends AbstractEntity {
 
-	@Column(length = 16, unique = true)
+	@Column(length = 16)
 	@Index(name = "address_type_index")
 	private String type;
 

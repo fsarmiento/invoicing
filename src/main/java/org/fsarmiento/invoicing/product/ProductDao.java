@@ -1,7 +1,6 @@
 package org.fsarmiento.invoicing.product;
 
-import org.fsarmiento.invoicing.entities.Product;
-import org.fsarmiento.invoicing.generics.db.GenericDao;
+import org.fsarmiento.invoicing.GenericDao;
 
 /**
  * The Interface ProductDao.

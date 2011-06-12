@@ -56,7 +56,7 @@
 	</servlet-mapping>
 
 	<!-- Processes application requests -->
-	<servlet>
+<!-- 	<servlet>
 		<servlet-name>appServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
@@ -69,7 +69,7 @@
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>*.jsp</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> -->
 
 	<welcome-file-list>
 		<welcome-file>index.zul</welcome-file>

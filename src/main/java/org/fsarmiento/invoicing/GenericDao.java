@@ -1,8 +1,7 @@
-package org.fsarmiento.invoicing.generics.db;
+package org.fsarmiento.invoicing;
 
 import java.util.List;
 
-import org.fsarmiento.invoicing.entities.AbstractEntity;
 
 /**
  * The Interface GenericDao.

@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dataset>
-	<customer id="1" account="test account1" name="test name1" onHold="false"/>
-	<customer id="2" account="test account2" name="duplicated name" onHold="false"/>
-	<customer id="3" account="test account3" name="duplicated name" onHold="true"/>
-	<customer id="4" account="account on hold" name="Mr Not Payer" onHold="true"/>
+<dataset>		
+	<address id="1" address1="1 Test Road" address2="" city="No Bug City" county="Success County" postcode="AB1 3CD" country=""/>
+	<address id="2" address1="2 Another Road" address2="Along Test Address" city="Bright City" county="Bucks" postcode="CD21 4EF" country="United Kingdom"/>
+	<address id="3" address1="7 Paris Road" address2="" city="Paris" county="" postcode="12345" country="France"/>
+
+	<customer id="1" account="ACCOUNT1" name="test name1" onHold="false" billingAddressId="1" shippingAddressId="1"/>
+	<customer id="2" account="ACCOUNT2" name="duplicated name" onHold="false" billingAddressId="2"/>
+	<customer id="3" account="ACCOUNT3" name="duplicated name" onHold="true" billingAddressId="3"/>
+	<customer id="4" account="ACCOUNTONHOLD" name="Mr Not Payer" onHold="true"/>
 </dataset>

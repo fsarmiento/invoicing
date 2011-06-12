@@ -1,9 +1,9 @@
-package org.fsarmiento.invoicing.generics.db;
+package org.fsarmiento.invoicing;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import org.fsarmiento.invoicing.entities.AbstractEntity;
+import org.fsarmiento.invoicing.*;
 import org.fsarmiento.invoicing.exception.EntityNotFoundException;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;

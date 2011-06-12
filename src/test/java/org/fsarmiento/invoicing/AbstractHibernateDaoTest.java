@@ -1,4 +1,4 @@
-package org.fsarmiento.invoicing.entities;
+package org.fsarmiento.invoicing;
 
 import java.net.URL;
 import java.util.*;
@@ -10,6 +10,7 @@ import org.dbunit.database.*;
 import org.dbunit.dataset.*;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
+import org.fsarmiento.invoicing.AbstractEntity;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.core.io.*;

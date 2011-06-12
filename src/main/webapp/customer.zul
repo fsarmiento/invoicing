@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+<zk>
+	<window id="testWin" title="Test" border="normal" apply="${customerController}">
+		<vlayout>
+			<textbox id="customerId" value="@{customerController.customer.id, load-after=btnSave.onClick}"/>			
+			<textbox id="account" value="@{customerController.customer.account}"/>
+			<button id="btnSave" label="Save" />
+		</vlayout>
+	</window>
+</zk>

@@ -1,16 +1,16 @@
 package org.fsarmiento.invoicing.product;
 
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
-import java.math.BigDecimal;
+import java.math.*;
 import java.util.*;
 
-import org.fsarmiento.invoicing.entities.*;
-import org.fsarmiento.invoicing.exception.EntityNotFoundException;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.ExpectedException;
+import org.fsarmiento.invoicing.*;
+import org.fsarmiento.invoicing.exception.*;
+import org.junit.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.test.annotation.*;
 
 /**
  * The Class ProductHibernateDaoTest.

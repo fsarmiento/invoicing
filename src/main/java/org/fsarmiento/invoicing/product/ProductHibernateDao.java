@@ -1,7 +1,6 @@
 package org.fsarmiento.invoicing.product;
 
-import org.fsarmiento.invoicing.entities.Product;
-import org.fsarmiento.invoicing.generics.db.GenericHibernateDao;
+import org.fsarmiento.invoicing.GenericHibernateDao;
 import org.springframework.stereotype.Repository;
 
 /**
