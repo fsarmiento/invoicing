@@ -463,6 +463,30 @@
 					</connectors>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<formats>
+						<format>html</format>
+					</formats>
+					<instrumentation>
+						<excludes>
+							<exclude>org/fsarmiento/invoice/Abstract*.class</exclude>
+							<exclude>org/fsarmiento/invoice/Generic*.class</exclude>
+							<exclude>org/fsarmiento/invoice/**/*Test.class</exclude>
+						</excludes>
+					</instrumentation>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<!-- <plugin> <groupId>org.databene</groupId> <artifactId>maven-benerator-plugin</artifactId> 
 				<version>0.6.5</version> <configuration> <descriptor>src/test/resources/data/test-data-generator.xml</descriptor> 
 				</configuration> <executions> <execution> <phase>compile</phase> <goals> 

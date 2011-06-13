@@ -1,23 +1,23 @@
 package org.fsarmiento.invoicing;
 
-import java.net.URL;
+import java.net.*;
 import java.util.*;
 
-import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
+import javax.annotation.*;
+import javax.sql.*;
 
 import org.dbunit.database.*;
 import org.dbunit.dataset.*;
-import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-import org.dbunit.operation.DatabaseOperation;
-import org.fsarmiento.invoicing.AbstractEntity;
-import org.junit.runner.RunWith;
+import org.dbunit.dataset.xml.*;
+import org.dbunit.operation.*;
+import org.junit.runner.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.core.io.*;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.core.io.Resource;
+import org.springframework.test.context.*;
+import org.springframework.test.context.junit4.*;
+import org.springframework.test.context.transaction.*;
+import org.springframework.transaction.annotation.*;
 
 /**
  * The Class AbstractHibernateDaoTest.
@@ -30,10 +30,9 @@ import org.springframework.transaction.annotation.Transactional;
 		"/spring/hibernate-context.xml" })
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @Transactional
-public abstract class AbstractHibernateDaoTest<T extends AbstractEntity> {
+public abstract class AbstractHibernateDaoTest {
 
 	@Autowired
-	@Qualifier("dataSource")
 	private DataSource dataSource;
 
 	@PostConstruct

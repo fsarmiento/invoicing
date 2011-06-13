@@ -1,14 +1,13 @@
 package org.fsarmiento.invoicing;
 
-import java.sql.SQLException;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
 
-import org.fsarmiento.invoicing.*;
-import org.fsarmiento.invoicing.exception.EntityNotFoundException;
+import org.fsarmiento.invoicing.exception.*;
 import org.hibernate.*;
-import org.hibernate.criterion.Restrictions;
-import org.springframework.orm.hibernate3.HibernateCallback;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.hibernate.criterion.*;
+import org.springframework.orm.hibernate3.*;
+import org.springframework.orm.hibernate3.support.*;
 import org.springframework.transaction.annotation.*;
 
 /**

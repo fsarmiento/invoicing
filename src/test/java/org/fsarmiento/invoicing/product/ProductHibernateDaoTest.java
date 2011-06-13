@@ -18,7 +18,7 @@ import org.springframework.test.annotation.*;
  * @author Florencio Sarmiento
  * @since 1.0
  */
-public class ProductHibernateDaoTest extends AbstractHibernateDaoTest<Product> {
+public class ProductHibernateDaoTest extends AbstractHibernateDaoTest {
 
 	@Autowired
 	private ProductDao productDao;

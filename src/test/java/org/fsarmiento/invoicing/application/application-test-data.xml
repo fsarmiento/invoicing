@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+	<customer id="1" account="ACCOUNT1" name="Customer 1" onHold="false" />
+	<customer id="2" account="ACCOUNT2" name="Customer 2" onHold="false" />
+	
+	<application id="1" account="ACCOUNT1" name="App1" description="Application 1 by ACCOUNT1" />
+	<application id="2" account="ACCOUNT1" name="App2" description="Application 2 by ACCOUNT1" />
+	<application id="3" account="ACCOUNT2" name="App1" description="Application 1 by ACCOUNT2" />
+	
+	<application_product id="1" application_id="1" productCode="PRODUCT1" description="test product 1" unitOfMeasure="EACH" unitPrice="50" vatRate="20.00"/>
+	<application_product id="2" application_id="1" productCode="PRODUCT2" description="test product 2" unitOfMeasure="EACH" unitPrice="100" vatRate="20.00"/>
+	
+	<application_product id="3" application_id="2" productCode="PRODUCT2" description="test product 2" unitOfMeasure="EACH" unitPrice="150" vatRate="20.00"/>
+	<application_product id="4" application_id="2" productCode="PRODUCT3" description="test product 3" unitOfMeasure="EACH" unitPrice="200" vatRate="20.00"/>
+
+</dataset>

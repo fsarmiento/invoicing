@@ -11,7 +11,7 @@ import org.junit.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.test.annotation.*;
 
-public class AddressHibernateDaoTest extends AbstractHibernateDaoTest<Address> {
+public class AddressHibernateDaoTest extends AbstractHibernateDaoTest {
 
 	@Autowired
 	private AddressDao addressDao;
