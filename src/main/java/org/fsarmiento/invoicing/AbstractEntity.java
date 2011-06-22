@@ -1,6 +1,6 @@
 package org.fsarmiento.invoicing;
 
-import java.io.Serializable;
+import java.io.*;
 
 import javax.persistence.*;
 
@@ -11,28 +11,32 @@ import javax.persistence.*;
  * @since 1.0
  */
 @MappedSuperclass
+/*
+ * @org.hibernate.annotations.Entity(selectBeforeUpdate = true, optimisticLock =
+ * OptimisticLockType.VERSION)
+ */
 public abstract class AbstractEntity implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	/**
-	 * Gets the id.
-	 * 
-	 * @return the id
-	 */
-	public Long getId() {
-		return id;
-	}
+    /**
+     * Gets the id.
+     * 
+     * @return the id
+     */
+    public Long getId() {
+	return id;
+    }
 
-	/**
-	 * Sets the id.
-	 * 
-	 * @param id
-	 *            the new id
-	 */
-	private void setId(Long id) {
-		this.id = id;
-	}
+    /**
+     * Sets the id.
+     * 
+     * @param id
+     *            the new id
+     */
+    private void setId(Long id) {
+	this.id = id;
+    }
 }

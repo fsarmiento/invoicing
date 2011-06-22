@@ -2,8 +2,8 @@ package org.fsarmiento.invoicing.application;
 
 import javax.persistence.*;
 
-import org.fsarmiento.invoicing.AbstractProduct;
-import org.hibernate.annotations.Index;
+import org.fsarmiento.invoicing.*;
+import org.hibernate.annotations.*;
 
 /**
  * The Class ApplicationProduct.
@@ -11,14 +11,15 @@ import org.hibernate.annotations.Index;
  * @author Florencio Sarmiento
  * @since 1.0
  */
-@Entity(name = "application_product")
+@javax.persistence.Entity(name = "application_product")
 @org.hibernate.annotations.Table(appliesTo = "application_product", indexes = { @Index(name = "application_product_index", columnNames = {
 		"application_id", "productCode" }) })
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = {
+@javax.persistence.Table(uniqueConstraints = { @UniqueConstraint(columnNames = {
 		"application_id", "productCode", }) })
 public class ApplicationProduct extends AbstractProduct {
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ForeignKey(name = "application_product_app_fk")
 	private Application application;
 
 	/**

@@ -1,10 +1,14 @@
 package org.fsarmiento.invoicing.invoice;
 
-import java.math.BigDecimal;
+import java.math.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 
-import org.fsarmiento.invoicing.AbstractProduct;
+import org.fsarmiento.invoicing.*;
+import org.hibernate.annotations.*;
+import org.springframework.format.annotation.*;
+import org.springframework.format.annotation.NumberFormat.Style;
 
 /**
  * The Class InvoiceLine.
@@ -15,110 +19,115 @@ import org.fsarmiento.invoicing.AbstractProduct;
 @Entity(name = "invoice_line")
 public class InvoiceLine extends AbstractProduct {
 
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "invoiceId")
-	private InvoiceHeader invoiceHeader;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "invoiceId")
+    @ForeignKey(name = "invoice_line_header_fk")
+    private InvoiceHeader invoiceHeader;
 
-	private BigDecimal netValue;
+    @NumberFormat(style = Style.CURRENCY)
+    private BigDecimal totalIncVat;
 
-	private BigDecimal grossValue;
+    @NumberFormat(style = Style.CURRENCY)
+    private BigDecimal totalExcVat;
 
-	private BigDecimal vatValue;
+    @NumberFormat(style = Style.CURRENCY)
+    private BigDecimal vatValue;
 
-	private BigDecimal discountValue;
+    @NumberFormat(style = Style.NUMBER)
+    private BigDecimal quantity;
 
-	/**
-	 * Gets the invoice header.
-	 * 
-	 * @return the invoice header
-	 */
-	public InvoiceHeader getInvoiceHeader() {
-		return invoiceHeader;
-	}
+    /**
+     * Gets the invoice header.
+     * 
+     * @return the invoice header
+     */
+    public InvoiceHeader getInvoiceHeader() {
+	return invoiceHeader;
+    }
 
-	/**
-	 * Sets the invoice header.
-	 * 
-	 * @param invoiceHeader
-	 *            the new invoice header
-	 */
-	public void setInvoiceHeader(InvoiceHeader invoiceHeader) {
-		this.invoiceHeader = invoiceHeader;
-	}
+    /**
+     * Sets the invoice header.
+     * 
+     * @param invoiceHeader
+     *            the new invoice header
+     */
+    public void setInvoiceHeader(InvoiceHeader invoiceHeader) {
+	this.invoiceHeader = invoiceHeader;
+    }
 
-	/**
-	 * Gets the net value.
-	 * 
-	 * @return the net value
-	 */
-	public BigDecimal getNetValue() {
-		return netValue;
-	}
+    /**
+     * Gets the total inc vat.
+     * 
+     * @return the total inc vat
+     */
+    public BigDecimal getTotalIncVat() {
+	return totalIncVat == null ? BigDecimal.ZERO : totalIncVat;
+    }
 
-	/**
-	 * Sets the net value.
-	 * 
-	 * @param netValue
-	 *            the new net value
-	 */
-	public void setNetValue(BigDecimal netValue) {
-		this.netValue = netValue;
-	}
+    /**
+     * Sets the total inc vat.
+     * 
+     * @param totalIncVat
+     *            the new total inc vat
+     */
+    public void setTotalIncVat(BigDecimal totalIncVat) {
+	this.totalIncVat = totalIncVat;
+    }
 
-	/**
-	 * Gets the gross value.
-	 * 
-	 * @return the gross value
-	 */
-	public BigDecimal getGrossValue() {
-		return grossValue;
-	}
+    /**
+     * Gets the total exc vat.
+     * 
+     * @return the total exc vat
+     */
+    public BigDecimal getTotalExcVat() {
+	return totalExcVat == null ? BigDecimal.ZERO : totalExcVat;
+    }
 
-	/**
-	 * Sets the gross value.
-	 * 
-	 * @param grossValue
-	 *            the new gross value
-	 */
-	public void setGrossValue(BigDecimal grossValue) {
-		this.grossValue = grossValue;
-	}
+    /**
+     * Sets the total exc vat.
+     * 
+     * @param totalExcVat
+     *            the new total exc vat
+     */
+    public void setTotalExcVat(BigDecimal totalExcVat) {
+	this.totalExcVat = totalExcVat;
+    }
 
-	/**
-	 * Gets the vat value.
-	 * 
-	 * @return the vat value
-	 */
-	public BigDecimal getVatValue() {
-		return vatValue;
-	}
+    /**
+     * Gets the vat value.
+     * 
+     * @return the vat value
+     */
+    public BigDecimal getVatValue() {
+	return vatValue == null ? BigDecimal.ZERO : vatValue;
+    }
 
-	/**
-	 * Sets the vat value.
-	 * 
-	 * @param vatValue
-	 *            the new vat value
-	 */
-	public void setVatValue(BigDecimal vatValue) {
-		this.vatValue = vatValue;
-	}
+    /**
+     * Sets the vat value.
+     * 
+     * @param vatValue
+     *            the new vat value
+     */
+    public void setVatValue(BigDecimal vatValue) {
+	this.vatValue = vatValue;
+    }
 
-	/**
-	 * Gets the discount value.
-	 * 
-	 * @return the discount value
-	 */
-	public BigDecimal getDiscountValue() {
-		return discountValue;
-	}
+    /**
+     * Gets the quantity.
+     * 
+     * @return the quantity
+     */
+    public BigDecimal getQuantity() {
+	return quantity;
+    }
 
-	/**
-	 * Sets the discount value.
-	 * 
-	 * @param discountValue
-	 *            the new discount value
-	 */
-	public void setDiscountValue(BigDecimal discountValue) {
-		this.discountValue = discountValue;
-	}
+    /**
+     * Sets the quantity.
+     * 
+     * @param quantity
+     *            the new quantity
+     */
+    public void setQuantity(BigDecimal quantity) {
+	this.quantity = quantity;
+    }
 }

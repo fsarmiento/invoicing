@@ -27,60 +27,62 @@ import org.springframework.transaction.annotation.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/test-main-context.xml",
-		"/spring/hibernate-context.xml" })
-@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
+	"/spring/test-hibernate-context.xml" })
+@TransactionConfiguration(transactionManager = "transactionManager",
+	defaultRollback = true)
 @Transactional
 public abstract class AbstractHibernateDaoTest {
 
-	@Autowired
-	private DataSource dataSource;
+    @Autowired
+    @Qualifier("dataSourceNoForeignKeyCheck")
+    private DataSource dataSource;
 
-	@PostConstruct
-	public void dataSetup() throws Exception {
-		IDatabaseConnection conn = new DatabaseConnection(
-				dataSource.getConnection());
+    @PostConstruct
+    public void dataSetup() throws Exception {
+	IDatabaseConnection conn = new DatabaseConnection(
+		dataSource.getConnection());
 
-		IDataSet dataSet = getDataSet();
+	IDataSet dataSet = getDataSet();
 
-		if (dataSet == null) {
-			return;
-		}
-
-		try {
-			DatabaseOperation.CLEAN_INSERT.execute(conn, dataSet);
-		} finally {
-			conn.close();
-		}
+	if (dataSet == null) {
+	    return;
 	}
 
-	private IDataSet getDataSet() throws Exception {
+	try {
+	    DatabaseOperation.CLEAN_INSERT.execute(conn, dataSet);
+	} finally {
+	    conn.close();
+	}
+    }
 
-		List<String> dataSetLocations = getDataSetLocations();
+    private IDataSet getDataSet() throws Exception {
 
-		if (dataSetLocations == null || dataSetLocations.isEmpty()) {
-			return null;
-		}
+	List<String> dataSetLocations = getDataSetLocations();
 
-		List<IDataSet> dataSets = new ArrayList<IDataSet>();
-
-		for (String dataSetLocation : dataSetLocations) {
-			URL url = null;
-
-			if (dataSetLocation.startsWith("/")) {
-				Resource resource = new ClassPathResource(dataSetLocation);
-				url = resource.getURL();
-
-			} else {
-				url = getClass().getResource(dataSetLocation);
-			}
-
-			IDataSet dataSet = new FlatXmlDataSetBuilder().build(url);
-			dataSets.add(dataSet);
-		}
-
-		return new CompositeDataSet(
-				(IDataSet[]) dataSets.toArray(new IDataSet[dataSets.size()]));
+	if (dataSetLocations == null || dataSetLocations.isEmpty()) {
+	    return null;
 	}
 
-	protected abstract List<String> getDataSetLocations();
+	List<IDataSet> dataSets = new ArrayList<IDataSet>();
+
+	for (String dataSetLocation : dataSetLocations) {
+	    URL url = null;
+
+	    if (dataSetLocation.startsWith("/")) {
+		Resource resource = new ClassPathResource(dataSetLocation);
+		url = resource.getURL();
+
+	    } else {
+		url = getClass().getResource(dataSetLocation);
+	    }
+
+	    IDataSet dataSet = new FlatXmlDataSetBuilder().build(url);
+	    dataSets.add(dataSet);
+	}
+
+	return new CompositeDataSet(
+		(IDataSet[]) dataSets.toArray(new IDataSet[dataSets.size()]));
+    }
+
+    protected abstract List<String> getDataSetLocations();
 }
