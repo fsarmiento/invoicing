@@ -9,7 +9,10 @@
 				<tab label="Payment History" />
 			</tabs>
 			<tabpanels>
-				<tabpanel>Panel for Applications</tabpanel>
+				<tabpanel>
+					<include
+						src="/WEB-INF/views/application/application_list.zul" />
+				</tabpanel>
 				<tabpanel>Panel for Invoice Schedule</tabpanel>
 				<tabpanel>Panel for Invoice History</tabpanel>
 				<tabpanel>Panel for Payment History</tabpanel>

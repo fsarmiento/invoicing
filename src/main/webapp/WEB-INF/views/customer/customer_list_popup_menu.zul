@@ -1,0 +1,5 @@
+<zk>
+	<menupopup id="customerListPopup">
+		<menuitem label="Add" />
+	</menupopup>
+</zk>

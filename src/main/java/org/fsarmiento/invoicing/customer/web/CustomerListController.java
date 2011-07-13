@@ -23,13 +23,9 @@ public class CustomerListController extends GenericSpringComposer {
     private Logger logger = LoggerFactory
 	    .getLogger(CustomerListController.class);
 
-    private Customer customer;
+    private Customer selectedCustomer;
 
     private List<Customer> customers;
-
-    private Address shippingAddress = new Address();
-
-    private Address billingAddress = new Address();
 
     @Autowired
     private CustomerService customerService;
@@ -50,17 +46,29 @@ public class CustomerListController extends GenericSpringComposer {
     public void doBeforeComposeChildren(org.zkoss.zk.ui.Component comp)
 	    throws Exception {
 	super.doBeforeComposeChildren(comp);
-	customers = customerService.listCustomers();
+
+	customers = new ArrayList<Customer>();
+
+	for (int index = 1; index <= 100; index++) {
+	    Customer customer = new Customer();
+	    customer.setAccount("Account " + index);
+	    customer.setName("Test Name " + index);
+	    customers.add(customer);
+	}
+
+	// Customer selected = custList.get(0);
+
+	// customers = customerService.listCustomers();
 	comp.setAttribute("customers", customers);
 
 	// customer = (Customer) Executions.getCurrent().getDesktop()
 	// .getAttribute("customer");
-	customer = (Customer) ((HttpServletRequest) Executions.getCurrent()
-		.getNativeRequest()).getAttribute("customer");
-
-	if (customer == null) {
-	    customer = new Customer();
-	}
+	// customer = (Customer) ((HttpServletRequest) Executions.getCurrent()
+	// .getNativeRequest()).getAttribute("customer");
+	//
+	// if (customer == null) {
+	// customer = new Customer();
+	// }
 
 	// comp.setAttribute("customer", customer);
     }
@@ -74,8 +82,9 @@ public class CustomerListController extends GenericSpringComposer {
     public void saveCustomer(Event evt) throws WrongValueException,
 	    InterruptedException {
 	logger.info("btnSave has been clicked!");
-	customerService.saveCustomer(customer);
-	Executions.getCurrent().getSession().setAttribute("customer", customer);
+	// customerService.saveCustomer(customer);
+	// Executions.getCurrent().getSession().setAttribute("customer",
+	// customer);
 
     }
 
@@ -83,31 +92,30 @@ public class CustomerListController extends GenericSpringComposer {
     public void editCustomer(Event evt) throws WrongValueException,
 	    InterruptedException {
 	logger.info("btnEdit has been clicked!");
-	customerService.saveCustomer(customer);
+	// customerService.saveCustomer(customer);
 	// Executions.getCurrent().getDesktop().setAttribute("customer",
 	// customer);
-	((HttpServletRequest) Executions.getCurrent().getNativeRequest())
-		.setAttribute("customer", customer);
-	Executions.sendRedirect("customer_list.zul");
+	// ((HttpServletRequest) Executions.getCurrent().getNativeRequest())
+	// .setAttribute("customer", customer);
+	// Executions.sendRedirect("customer_list.zul");
 
     }
 
     @EventHandler("btnDelete.onClick")
-    public void deleteCustomer(Event evt) throws WrongValueException,
+    public void deleteCustomers(Event evt) throws WrongValueException,
 	    InterruptedException {
 	logger.info("btnDelete.onClick has been clicked!");
-	customerService.deleteCustomer(customer);
-	custList.getSelectedItem().detach();
-	customer = null;
+	// customerService.deleteCustomer(customer);
+	// custList.getSelectedItem().detach();
+	// customer = null;
 	// reload component
     }
 
-    public Customer getCustomer() {
-	return customer;
+    public Customer getSelectedCustomer() {
+	return selectedCustomer;
     }
 
-    public void setCustomer(Customer customer) {
-	this.customer = customer;
+    public void setSelectedCustomer(Customer selectedCustomer) {
+	this.selectedCustomer = selectedCustomer;
     }
-
 }

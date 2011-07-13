@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 <?variable-resolver class="org.fsarmiento.invoicing.SystemInfoResolver"?>
-<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
-<?page title="${systemName} - Customer" ?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" root="./testWin"?>
+<!-- <?page title="${systemName} - Customer" ?> -->
 
-<window id="testWin" apply="${customerController}" >
+<window id="testWin" apply="${customerListController}" >
 	<borderlayout height="450px">
 		<center>
 			<borderlayout>
@@ -12,7 +12,7 @@
 					border="none">
 					<vlayout style="padding: 5px">
 						<listbox id="custList" multiple="true" checkmark="true"
-							model="@{customers}" selectedItem="@{customerController.customer}">
+							model="@{customers}" selectedItem="@{customerListController.customer}">
 							<listhead>
 								<listheader label="ID" sort="auto" />
 								<listheader label="Account" sort="auto" />
@@ -47,11 +47,11 @@
 						<row>
 							<label value="Account:" />
 							<textbox id="account"
-								value="@{customerController.customer.account}" />
+								value="@{customerListController.customer.account}" />
 						</row>
 						<row>
 							<label value="Name:" />
-							<textbox id="name" value="@{customerController.customer.name}" />
+							<textbox id="name" value="@{customerListController.customer.name}" />
 						</row>
 					</rows>
 				</grid>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zk>
 	<borderlayout id="customerLayout">
-		<center id="customersContainer" flex="true">
+		<center id="customerListContainer" flex="true">
 			<include src="/WEB-INF/views/customer/customer_list.zul"/>
 		</center>
 		<south id="customerSummaryContainer" collapsible="true"

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" root="./winCustomerList"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 <zk>
+	<include src="/WEB-INF/views/customer/customer_popup_menu.zul"/>
+	<include src="/WEB-INF/views/customer/customer_list_popup_menu.zul"/>
+	
 	<window title="Customers" border="normal" id="winCustomerList"
 		height="100%">
 		<borderlayout>
@@ -7,11 +12,11 @@
 				<borderlayout>
 					<west width="50%" border="none">
 						<hlayout>
-							<button label="Add" />
+							<button label="Add" id="btnAdd"/>
 							<separator bar="true" />
-							<button label="Edit" />
+							<button label="Edit" id="btnEdit"/>
 							<separator bar="true" />
-							<button label="Delete" />
+							<button label="Delete" id="btnDelete"/>
 						</hlayout>
 					</west>
 					<east width="50%" border="none">
@@ -23,10 +28,11 @@
 				</borderlayout>
 			</north>
 			<center border="none">
-				<vlayout height="100%">
-					<zscript>
+				<vlayout height="100%" style="padding: 5px">							
+				<zscript>
 						<![CDATA[
 							import org.fsarmiento.invoicing.customer.Customer;
+							import java.util.*;
 							
 							List custList = new ArrayList();
 							
@@ -35,56 +41,23 @@
 							    customer.setAccount("Account " + index);
 							    customer.setName("Test Name " + index);
 							    custList.add(customer);
-							    System.out.println("Added customer " + index);
 							}		
 							
-							Customer selected = custList.get(0);
+							Customer selected;
 						]]>
 					</zscript>	
-					<listbox id="customerList" multiple="true" mold="paging"
+					<listbox id="customerList" multiple="true" mold="paging" autopaging="true"
 						checkmark="true" model="@{custList}"
-						selectedItem="@{selected}" vflex="true" pagingPosition="bottom" pageSize="5" >
+						selectedItem="@{selected}" vflex="true" pagingPosition="bottom" context="customerListPopup">
 						<listhead>							
 							<listheader label="Account" sort="auto" />
 							<listheader label="Name" sort="auto" />
-						</listhead>		
-						<listitem>
-							<listcell label="Test 1" />
-							<listcell label="Test Name 1" />
+						</listhead>			    
+ 						<listitem self="@{each=cust}" context="customerPopup">							
+							<listcell label="@{cust.account}"/>
+							<listcell label="@{cust.name}" />
 						</listitem>
-						<listitem>
-							<listcell label="Test 2" />
-							<listcell label="Test Name 2" />
-						</listitem>
-						<listitem>
-							<listcell label="Test 3" />
-							<listcell label="Test Name 3" />
-						</listitem>
-						<listitem>
-							<listcell label="Test 4" />
-							<listcell label="Test Name 4" />
-						</listitem>
-						<listitem>
-							<listcell label="Test 5" />
-							<listcell label="Test Name 5" />
-						</listitem>
-						<listitem>
-							<listcell label="Test 6" />
-							<listcell label="Test Name 6" />
-						</listitem>
-						<listitem>
-							<listcell label="Test 7" />
-							<listcell label="Test Name 7" />
-						</listitem>
-						<listitem>
-							<listcell label="Test 8" />
-							<listcell label="Test Name 8" />
-						</listitem>				    
-<!-- 						<listitem self="@{each=Customer}" >							
-							<listcell label="@{Customer.account}" />
-							<listcell label="@{Customer.name}" />
-						</listitem> -->
-					</listbox>
+					</listbox>					
 				</vlayout>
 			</center>
 		</borderlayout>

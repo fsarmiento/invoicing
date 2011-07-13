@@ -1,0 +1,7 @@
+<zk>
+	<menupopup id="customerPopup">
+		<menuitem label="Edit/View" />
+		<menuseparator />
+		<menuitem label="Delete" />
+	</menupopup>
+</zk>
