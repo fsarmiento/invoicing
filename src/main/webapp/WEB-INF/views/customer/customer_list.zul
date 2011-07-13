@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+	<window title="Customers" border="normal" id="winCustomerList"
+		height="100%">
+		<borderlayout>
+			<north height="10%" border="none" size="25px" flex="true">
+				<borderlayout>
+					<west width="50%" border="none">
+						<hlayout>
+							<button label="Add" />
+							<separator bar="true" />
+							<button label="Edit" />
+							<separator bar="true" />
+							<button label="Delete" />
+						</hlayout>
+					</west>
+					<east width="50%" border="none">
+						<hlayout>
+							<textbox maxlength="20" />
+							<button label="Search" />
+						</hlayout>
+					</east>
+				</borderlayout>
+			</north>
+			<center border="none">
+				<vlayout height="100%">
+					<zscript>
+						<![CDATA[
+							import org.fsarmiento.invoicing.customer.Customer;
+							
+							List custList = new ArrayList();
+							
+							for (int index=1; index<=100; index++) {
+							    Customer customer = new Customer();							   
+							    customer.setAccount("Account " + index);
+							    customer.setName("Test Name " + index);
+							    custList.add(customer);
+							    System.out.println("Added customer " + index);
+							}		
+							
+							Customer selected = custList.get(0);
+						]]>
+					</zscript>	
+					<listbox id="customerList" multiple="true" mold="paging"
+						checkmark="true" model="@{custList}"
+						selectedItem="@{selected}" vflex="true" pagingPosition="bottom" pageSize="5" >
+						<listhead>							
+							<listheader label="Account" sort="auto" />
+							<listheader label="Name" sort="auto" />
+						</listhead>		
+						<listitem>
+							<listcell label="Test 1" />
+							<listcell label="Test Name 1" />
+						</listitem>
+						<listitem>
+							<listcell label="Test 2" />
+							<listcell label="Test Name 2" />
+						</listitem>
+						<listitem>
+							<listcell label="Test 3" />
+							<listcell label="Test Name 3" />
+						</listitem>
+						<listitem>
+							<listcell label="Test 4" />
+							<listcell label="Test Name 4" />
+						</listitem>
+						<listitem>
+							<listcell label="Test 5" />
+							<listcell label="Test Name 5" />
+						</listitem>
+						<listitem>
+							<listcell label="Test 6" />
+							<listcell label="Test Name 6" />
+						</listitem>
+						<listitem>
+							<listcell label="Test 7" />
+							<listcell label="Test Name 7" />
+						</listitem>
+						<listitem>
+							<listcell label="Test 8" />
+							<listcell label="Test Name 8" />
+						</listitem>				    
+<!-- 						<listitem self="@{each=Customer}" >							
+							<listcell label="@{Customer.account}" />
+							<listcell label="@{Customer.name}" />
+						</listitem> -->
+					</listbox>
+				</vlayout>
+			</center>
+		</borderlayout>
+	</window>
+</zk>

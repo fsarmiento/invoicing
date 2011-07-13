@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+	<window id="customerSummary" height="100%" border="none">
+		<tabbox vflex="1">
+			<tabs>
+				<tab label="Applications" />
+				<tab label="Invoice Schedule" />
+				<tab label="Invoice History" />
+				<tab label="Payment History" />
+			</tabs>
+			<tabpanels>
+				<tabpanel>Panel for Applications</tabpanel>
+				<tabpanel>Panel for Invoice Schedule</tabpanel>
+				<tabpanel>Panel for Invoice History</tabpanel>
+				<tabpanel>Panel for Payment History</tabpanel>
+			</tabpanels>
+		</tabbox>
+	</window>
+</zk>

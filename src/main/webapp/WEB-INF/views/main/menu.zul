@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="Invoicing" contentType="text/html;charset=UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+<zk>
+	<window height="100%" id="winApp" apply="${menuController}">
+		<borderlayout id="appLayout">
+			<west title="What would you like to do today?" flex="true" collapsible="true" size="15%"
+				id="menuContainer">
+				<tabbox id="menu" mold="accordion">
+					<tabs>
+						<tab label="Home" />
+						<tab label="Customers" />
+						<tab label="Invoices" />
+						<tab label="Reports" />
+						<tab label="Settings" />
+					</tabs>
+					<tabpanels>
+						<tabpanel>Home</tabpanel>
+						<tabpanel>
+							<button id="btnListCustomers"
+								label="Customers" />
+						</tabpanel>
+						<tabpanel>
+							<button id="btnListInvoices"
+								label="Invoices" />
+						</tabpanel>
+						<tabpanel>Reports</tabpanel>
+						<tabpanel>Settings</tabpanel>
+					</tabpanels>
+				</tabbox>
+			</west>
+			<center flex="true" id="contentContainer">
+			</center>
+		</borderlayout>
+	</window>
+</zk>

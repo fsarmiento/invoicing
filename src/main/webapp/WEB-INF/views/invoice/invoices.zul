@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+	<window title="Invoices" border="normal" id="winInvoices">List of invoices will display here!</window>
+</zk>
