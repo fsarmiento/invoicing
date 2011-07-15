@@ -12,13 +12,4 @@ import org.fsarmiento.invoicing.*;
  */
 public interface ApplicationProductDao extends GenericDao<ApplicationProduct> {
 
-	/**
-	 * List by application.
-	 * 
-	 * @param appId
-	 *            the app id
-	 * @return the list
-	 */
-	List<ApplicationProduct> listByApplication(Long appId);
-
 }

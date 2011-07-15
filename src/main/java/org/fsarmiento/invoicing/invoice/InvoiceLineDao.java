@@ -12,13 +12,4 @@ import org.fsarmiento.invoicing.*;
  */
 public interface InvoiceLineDao extends GenericDao<InvoiceLine> {
 
-	/**
-	 * List by customer.
-	 * 
-	 * @param invoiceId
-	 *            the invoice id
-	 * @return the list
-	 */
-	List<InvoiceLine> listByInvoiceHeader(Long invoiceId);
-
 }

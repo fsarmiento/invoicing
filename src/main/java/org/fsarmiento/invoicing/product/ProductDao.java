@@ -10,5 +10,12 @@ import org.fsarmiento.invoicing.GenericDao;
  */
 public interface ProductDao extends GenericDao<Product> {
 
-	Product getByProductCode(String productCode);
+    /**
+     * Gets the by product code.
+     * 
+     * @param productCode
+     *            the product code
+     * @return the by product code
+     */
+    Product getByProductCode(String productCode);
 }

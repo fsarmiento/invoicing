@@ -29,7 +29,7 @@ public class AddressHibernateDaoTest extends AbstractHibernateDaoTest {
 	address.setTelNo("01234987654");
 	assertNull(address.getId());
 
-	addressDao.saveOrUpdate(address);
+	addressDao.save(address);
 	assertNotNull(address.getId());
 
 	Address savedAddress = addressDao.getById(address.getId());
@@ -47,7 +47,7 @@ public class AddressHibernateDaoTest extends AbstractHibernateDaoTest {
 	address.setAddress1(newAddress1);
 	address.setCity(newCity);
 
-	addressDao.saveOrUpdate(address);
+	addressDao.update(address);
 
 	address = addressDao.getById(new Long(1));
 	assertThat(address.getAddress1(), equalTo(newAddress1));
@@ -63,6 +63,23 @@ public class AddressHibernateDaoTest extends AbstractHibernateDaoTest {
 	addressDao.delete(address);
 
 	address = addressDao.getById(new Long(1));
+    }
+
+    @Test
+    public void listAddressesInUK() {
+	HibernateSearchObject<Address> searchObject = new HibernateSearchObject(
+		Address.class);
+
+	String uk = "United Kingdom";
+
+	searchObject.addFilterEqual("country", uk);
+	List<Address> addressList = addressDao.listBySearchObject(searchObject);
+	assertNotNull(addressList);
+	assertThat(addressList.size(), equalTo(2));
+
+	for (Address address : addressList) {
+	    assertThat(address.getCountry(), equalTo(uk));
+	}
     }
 
     @Override

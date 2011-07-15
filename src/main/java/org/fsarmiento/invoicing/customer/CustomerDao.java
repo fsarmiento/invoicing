@@ -1,6 +1,6 @@
 package org.fsarmiento.invoicing.customer;
 
-import org.fsarmiento.invoicing.GenericDao;
+import org.fsarmiento.invoicing.*;
 
 /**
  * The Interface CustomerDao.
@@ -10,12 +10,12 @@ import org.fsarmiento.invoicing.GenericDao;
  */
 public interface CustomerDao extends GenericDao<Customer> {
 
-	/**
-	 * Gets the by account.
-	 * 
-	 * @param account
-	 *            the account
-	 * @return the by account
-	 */
-	Customer getByAccount(String account);
+    /**
+     * Gets the by account.
+     * 
+     * @param account
+     *            the account
+     * @return the by account
+     */
+    Customer getByAccount(String account);
 }

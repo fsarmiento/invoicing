@@ -1,7 +1,7 @@
 package org.fsarmiento.invoicing.address;
 
-import org.fsarmiento.invoicing.GenericHibernateDao;
-import org.springframework.stereotype.Repository;
+import org.fsarmiento.invoicing.*;
+import org.springframework.stereotype.*;
 
 /**
  * The Class AddressHibernateDao.
@@ -11,13 +11,13 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("addressDao")
 public class AddressHibernateDao extends GenericHibernateDao<Address> implements
-		AddressDao {
+	AddressDao {
 
-	/**
-	 * Instantiates a new address hibernate dao.
-	 */
-	public AddressHibernateDao() {
-		super(Address.class);
-	}
+    /**
+     * Instantiates a new address hibernate dao.
+     */
+    public AddressHibernateDao() {
+	super(Address.class);
+    }
 
 }

@@ -20,11 +20,12 @@ public class DefaultCustomerService implements CustomerService {
 
     public void saveCustomer(Customer customer) {
 	LoggerUtil.info(logger, "Saving a new customer");
-	customerDao.saveOrUpdate(customer);
+	customerDao.save(customer);
     }
 
     public List<Customer> listCustomers() {
-	return customerDao.listAll();
+	// return customerDao.listAll();
+	return null;
     }
 
     public Customer getCustomer(String account) {

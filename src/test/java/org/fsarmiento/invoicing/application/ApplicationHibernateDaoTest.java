@@ -32,7 +32,7 @@ public class ApplicationHibernateDaoTest extends AbstractHibernateDaoTest {
 	application.setOwner(customer);
 	assertNull(application.getId());
 
-	applicationDao.saveOrUpdate(application);
+	applicationDao.save(application);
 	assertNotNull(application.getId());
 
 	Application savedApplication = applicationDao.getById(application
@@ -62,7 +62,7 @@ public class ApplicationHibernateDaoTest extends AbstractHibernateDaoTest {
 	    assertNull(appProduct.getId());
 	}
 
-	applicationDao.saveOrUpdate(application);
+	applicationDao.save(application);
 	assertNotNull(application.getId());
 
 	Application savedApplication = applicationDao.getById(application
@@ -88,7 +88,7 @@ public class ApplicationHibernateDaoTest extends AbstractHibernateDaoTest {
 		.iterator().next();
 	application.removeApplicationProduct(product1);
 
-	applicationDao.saveOrUpdate(application);
+	applicationDao.update(application);
 
 	application = applicationDao.getById(new Long(1));
 	assertThat(application.getName(), equalTo(newName));
@@ -97,17 +97,33 @@ public class ApplicationHibernateDaoTest extends AbstractHibernateDaoTest {
     }
 
     @Test
-    @ExpectedException(EntityNotFoundException.class)
     public void listByInvalidCustomer() {
+	HibernateSearchObject searchObject = new HibernateSearchObject(
+		Application.class);
+	searchObject.addFilterEqual("owner.account", "invalid account");
+
 	List<Application> applications = applicationDao
-		.listByCustomer("invalid_account");
+		.listBySearchObject(searchObject);
+	assertThat(applications.size(), equalTo(0));
     }
 
     @Test
     public void listByCustomer() {
+	String accountToSearch = "ACCOUNT1";
+
+	HibernateSearchObject searchObject = new HibernateSearchObject(
+		Application.class);
+	searchObject.addFilterEqual("owner.account", accountToSearch);
+
 	List<Application> applications = applicationDao
-		.listByCustomer("ACCOUNT1");
+		.listBySearchObject(searchObject);
 	assertThat(applications.size(), equalTo(2));
+
+	for (Application application : applications) {
+	    Customer owner = application.getOwner();
+	    assertNotNull(owner);
+	    assertThat(owner.getAccount(), equalTo(accountToSearch));
+	}
     }
 
     @Test

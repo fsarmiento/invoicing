@@ -1,6 +1,6 @@
 package org.fsarmiento.invoicing.address;
 
-import org.fsarmiento.invoicing.GenericDao;
+import org.fsarmiento.invoicing.*;
 
 /**
  * The Interface AddressDao.

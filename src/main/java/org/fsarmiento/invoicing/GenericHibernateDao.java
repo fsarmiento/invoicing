@@ -1,17 +1,17 @@
 package org.fsarmiento.invoicing;
 
-import java.sql.*;
 import java.util.*;
 
 import org.fsarmiento.invoicing.exception.*;
 import org.hibernate.*;
-import org.hibernate.criterion.*;
-import org.springframework.orm.hibernate3.*;
 import org.springframework.orm.hibernate3.support.*;
 import org.springframework.transaction.annotation.*;
 
+import com.googlecode.genericdao.search.*;
+import com.googlecode.genericdao.search.hibernate.*;
+
 /**
- * The Class GenericHibernateDao.
+ * The GenericHibernateDao class.
  * 
  * @param <T>
  *            the generic type
@@ -20,108 +20,69 @@ import org.springframework.transaction.annotation.*;
  */
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = EntityNotFoundException.class)
 public abstract class GenericHibernateDao<T extends AbstractEntity> extends
-		HibernateDaoSupport implements GenericDao<T> {
+	HibernateDaoSupport implements GenericDao<T> {
 
-	/** The entity class. */
-	private Class<T> entityClass;
+    private Class<T> entityClass;
 
-	/**
-	 * Instantiates a new generic hibernate dao.
-	 * 
-	 * @param entityClass
-	 *            the entity class
-	 */
-	public GenericHibernateDao(Class<T> entityClass) {
-		this.entityClass = entityClass;
+    /**
+     * Instantiates a new generic hibernate dao.
+     * 
+     * @param entityClass
+     *            the entity class
+     */
+    public GenericHibernateDao(Class<T> entityClass) {
+	this.entityClass = entityClass;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public void save(T entity) {
+	getHibernateTemplate().save(entity);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public void update(T entity) {
+	getHibernateTemplate().update(entity);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public void delete(T entity) {
+	getHibernateTemplate().delete(entity);
+    }
+
+    public T getById(Long id) {
+	T entity = getHibernateTemplate().get(entityClass, id);
+
+	if (entity == null) {
+	    throw new EntityNotFoundException(entityClass, "id", id);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.fsarmiento.invoicing.generics.db.GenericDao#saveOrUpdate(org.fsarmiento
-	 * .invoicing.entities.AbstractEntity)
-	 */
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public void saveOrUpdate(T entity) {
-		getHibernateTemplate().saveOrUpdate(entity);
-	}
+	return entity;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.fsarmiento.invoicing.generics.db.GenericDao#delete(org.fsarmiento
-	 * .invoicing.entities.AbstractEntity)
-	 */
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	public void delete(T entity) {
-		getHibernateTemplate().delete(entity);
-	}
+    @SuppressWarnings("unchecked")
+    public List<T> listBySearchObject(HibernateSearchObject<T> searchObject) {
+	SessionFactory sessionFactory = getHibernateTemplate()
+		.getSessionFactory();
+	Session currentSession = sessionFactory.getCurrentSession();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.fsarmiento.invoicing.generics.db.GenericDao#getById(java.lang.Long)
-	 */
-	public T getById(Long id) {
-		return getByColumnValue("id", id);
-	}
+	HibernateSearchProcessor hibernateSearchProcessor = HibernateSearchProcessor
+		.getInstanceForSessionFactory(sessionFactory);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.fsarmiento.invoicing.generics.db.GenericDao#getByColumnValue(java
-	 * .lang.String, java.lang.Object)
-	 */
-	public T getByColumnValue(final String column, final Object value) {
-		List<T> entities = listByColumnValue(column, value);
-		return entities.get(0);
-	}
+	return (List<T>) hibernateSearchProcessor.search(currentSession,
+		searchObject);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.fsarmiento.invoicing.generics.db.GenericDao#listByColumnValue(java
-	 * .lang.String, java.lang.Object)
-	 */
-	public List<T> listByColumnValue(final String column, final Object value) {
+    @SuppressWarnings("unchecked")
+    public SearchResult<T> getSearchResultBySearchObject(
+	    HibernateSearchObject<T> searchObject) {
+	SessionFactory sessionFactory = getHibernateTemplate()
+		.getSessionFactory();
+	Session currentSession = sessionFactory.getCurrentSession();
 
-		@SuppressWarnings("unchecked")
-		List<T> entities = (List<T>) getHibernateTemplate().execute(
-				new HibernateCallback() {
+	HibernateSearchProcessor hibernateSearchProcessor = HibernateSearchProcessor
+		.getInstanceForSessionFactory(sessionFactory);
 
-					public Object doInHibernate(Session session)
-							throws HibernateException, SQLException {
-						return session.createCriteria(entityClass)
-								.add(Restrictions.eq(column, value)).list();
-					}
-				});
-
-		if (entities == null || entities.isEmpty()) {
-			throw new EntityNotFoundException(entityClass, column, value);
-		}
-
-		return entities;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.fsarmiento.invoicing.generics.db.GenericDao#listAll()
-	 */
-	@SuppressWarnings("unchecked")
-	public List<T> listAll() {
-		return (List<T>) getHibernateTemplate().execute(
-
-		new HibernateCallback() {
-			public Object doInHibernate(Session session)
-					throws HibernateException, SQLException {
-				return session.createCriteria(entityClass).list();
-			}
-		});
-	}
+	return hibernateSearchProcessor.searchAndCount(currentSession,
+		searchObject);
+    }
 }

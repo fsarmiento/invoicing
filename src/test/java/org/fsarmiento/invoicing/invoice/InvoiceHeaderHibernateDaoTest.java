@@ -40,7 +40,7 @@ public class InvoiceHeaderHibernateDaoTest extends AbstractHibernateDaoTest {
 
 	assertNull(invoice.getId());
 
-	invoiceHeaderDao.saveOrUpdate(invoice);
+	invoiceHeaderDao.save(invoice);
 	assertNotNull(invoice.getId());
 
 	InvoiceHeader savedInvoice = invoiceHeaderDao.getById(invoice.getId());
@@ -74,7 +74,7 @@ public class InvoiceHeaderHibernateDaoTest extends AbstractHibernateDaoTest {
 	    assertNull(invLine.getId());
 	}
 
-	invoiceHeaderDao.saveOrUpdate(invoice);
+	invoiceHeaderDao.save(invoice);
 	assertNotNull(invoice.getId());
 
 	InvoiceHeader savedInvoice = invoiceHeaderDao.getById(invoice.getId());
@@ -100,7 +100,7 @@ public class InvoiceHeaderHibernateDaoTest extends AbstractHibernateDaoTest {
 	invoiceHeader.setTotalIncVat(newTotal);
 	invoiceHeader.setStatus(InvoiceStatus.APPROVED);
 
-	invoiceHeaderDao.saveOrUpdate(invoiceHeader);
+	invoiceHeaderDao.update(invoiceHeader);
 
 	invoiceHeader = invoiceHeaderDao.getById(new Long(1));
 	assertThat(invoiceHeader.getNotes(), equalTo(newNote));
@@ -119,24 +119,57 @@ public class InvoiceHeaderHibernateDaoTest extends AbstractHibernateDaoTest {
 		.iterator().next();
 
 	invoiceHeader.removeInvoiceLine(invLineToRemove);
-	invoiceHeaderDao.saveOrUpdate(invoiceHeader);
+	invoiceHeaderDao.update(invoiceHeader);
 
 	invoiceHeader = invoiceHeaderDao.getById(new Long(1));
 	assertThat(invoiceHeader.getInvoiceLines().size(), equalTo(1));
     }
 
     @Test
-    @ExpectedException(EntityNotFoundException.class)
     public void listByInvalidCustomer() {
+	HibernateSearchObject<InvoiceHeader> searchObject = new HibernateSearchObject(
+		InvoiceHeader.class);
+	searchObject.addFilterEqual("invoicee.account", "invalid customer");
+
 	List<InvoiceHeader> invoiceHeaders = invoiceHeaderDao
-		.listByCustomer("invalid customer");
+		.listBySearchObject(searchObject);
+	assertThat(invoiceHeaders.size(), equalTo(0));
     }
 
     @Test
     public void listByCustomer() {
+	String accountToSearch = "ACCOUNT1";
+
+	HibernateSearchObject<InvoiceHeader> searchObject = new HibernateSearchObject(
+		InvoiceHeader.class);
+	searchObject.addFilterEqual("invoicee.account", accountToSearch);
+
 	List<InvoiceHeader> invoiceHeaders = invoiceHeaderDao
-		.listByCustomer("ACCOUNT1");
+		.listBySearchObject(searchObject);
 	assertThat(invoiceHeaders.size(), equalTo(2));
+
+	for (InvoiceHeader invoiceHeader : invoiceHeaders) {
+	    Customer invoicee = invoiceHeader.getInvoicee();
+	    assertNotNull(invoicee);
+	    assertThat(invoicee.getAccount(), equalTo(accountToSearch));
+	}
+    }
+
+    @Test
+    public void listInvoicesOnHold() {
+	InvoiceStatus statusToSearch = InvoiceStatus.REVIEW;
+
+	HibernateSearchObject<InvoiceHeader> searchObject = new HibernateSearchObject(
+		InvoiceHeader.class);
+	searchObject.addFilterEqual("status", statusToSearch);
+
+	List<InvoiceHeader> invoiceHeaders = invoiceHeaderDao
+		.listBySearchObject(searchObject);
+	assertThat(invoiceHeaders.size(), equalTo(2));
+
+	for (InvoiceHeader invoiceHeader : invoiceHeaders) {
+	    assertThat(invoiceHeader.getStatus(), equalTo(statusToSearch));
+	}
     }
 
     @Test

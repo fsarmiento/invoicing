@@ -26,36 +26,4 @@ public class InvoiceHeaderHibernateDao extends
     public InvoiceHeaderHibernateDao() {
 	super(InvoiceHeader.class);
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.fsarmiento.invoicing.invoice.InvoiceHeaderDao#listByCustomer(java
-     * .lang.String)
-     */
-    @Override
-    public List<InvoiceHeader> listByCustomer(final String account) {
-
-	@SuppressWarnings("unchecked")
-	List<InvoiceHeader> entities = (List<InvoiceHeader>) getHibernateTemplate()
-		.execute(new HibernateCallback() {
-
-		    public Object doInHibernate(Session session)
-			    throws HibernateException, SQLException {
-			return session
-				.createCriteria(InvoiceHeader.class)
-				.createAlias("invoicee", "invoicee")
-				.add(Restrictions.eq("invoicee.account",
-					account)).list();
-		    }
-		});
-
-	if (entities == null || entities.isEmpty()) {
-	    throw new EntityNotFoundException(InvoiceHeader.class,
-		    "invoicee.account", account);
-	}
-
-	return entities;
-    }
 }

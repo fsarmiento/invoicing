@@ -12,13 +12,4 @@ import org.fsarmiento.invoicing.*;
  */
 public interface InvoiceHeaderDao extends GenericDao<InvoiceHeader> {
 
-	/**
-	 * List by customer.
-	 * 
-	 * @param account
-	 *            the account
-	 * @return the list
-	 */
-	List<InvoiceHeader> listByCustomer(String account);
-
 }

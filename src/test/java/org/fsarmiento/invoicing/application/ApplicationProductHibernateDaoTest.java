@@ -37,7 +37,7 @@ public class ApplicationProductHibernateDaoTest extends
 	appProduct.setApplication(application);
 	assertNull(appProduct.getId());
 
-	applicationProductDao.saveOrUpdate(appProduct);
+	applicationProductDao.save(appProduct);
 	assertNotNull(appProduct.getId());
 
 	ApplicationProduct savedAppProduct = applicationProductDao
@@ -63,7 +63,7 @@ public class ApplicationProductHibernateDaoTest extends
 	appProduct.setUnitPrice(newUnitPrice);
 	appProduct.setVatRate(newVatRate);
 
-	applicationProductDao.saveOrUpdate(appProduct);
+	applicationProductDao.update(appProduct);
 
 	appProduct = applicationProductDao.getById(new Long(1));
 	assertThat(appProduct.getUnitPrice(), equalTo(newUnitPrice));
@@ -72,17 +72,33 @@ public class ApplicationProductHibernateDaoTest extends
     }
 
     @Test
-    @ExpectedException(EntityNotFoundException.class)
     public void listByInvalidApplication() {
+	HibernateSearchObject<ApplicationProduct> searchObject = new HibernateSearchObject(
+		ApplicationProduct.class);
+	searchObject.addFilterEqual("application.id", new Long(-1));
+
 	List<ApplicationProduct> appProducts = applicationProductDao
-		.listByApplication(new Long(-1));
+		.listBySearchObject(searchObject);
+	assertThat(appProducts.size(), equalTo(0));
     }
 
     @Test
     public void listByApplication() {
+	Long appIdToSearch = new Long(1);
+
+	HibernateSearchObject<ApplicationProduct> searchObject = new HibernateSearchObject(
+		ApplicationProduct.class);
+	searchObject.addFilterEqual("application.id", appIdToSearch);
+
 	List<ApplicationProduct> appProducts = applicationProductDao
-		.listByApplication(new Long(1));
+		.listBySearchObject(searchObject);
 	assertThat(appProducts.size(), equalTo(2));
+
+	for (ApplicationProduct appProduct : appProducts) {
+	    Application app = appProduct.getApplication();
+	    assertNotNull(app);
+	    assertThat(app.getId(), equalTo(appIdToSearch));
+	}
     }
 
     @Test

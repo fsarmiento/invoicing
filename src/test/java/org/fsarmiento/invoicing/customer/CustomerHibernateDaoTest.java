@@ -10,6 +10,7 @@ import org.fsarmiento.invoicing.address.*;
 import org.fsarmiento.invoicing.exception.*;
 import org.junit.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.orm.hibernate3.support.*;
 import org.springframework.test.annotation.*;
 
 /**
@@ -30,7 +31,7 @@ public class CustomerHibernateDaoTest extends AbstractHibernateDaoTest {
 	customer.setAccount(account);
 	assertThat(customer.getId(), nullValue());
 
-	customerDao.saveOrUpdate(customer);
+	customerDao.save(customer);
 	assertNotNull(customer.getId());
     }
 
@@ -41,7 +42,7 @@ public class CustomerHibernateDaoTest extends AbstractHibernateDaoTest {
 
 	String newName = "New Name";
 	customer.setName(newName);
-	customerDao.saveOrUpdate(customer);
+	customerDao.update(customer);
 
 	customer = customerDao.getById(customer.getId());
 	assertThat(customer.getName(), equalTo(newName));
@@ -66,7 +67,7 @@ public class CustomerHibernateDaoTest extends AbstractHibernateDaoTest {
 	address.setCity(newCity);
 	customer.setBillingAddress(address);
 
-	customerDao.saveOrUpdate(customer);
+	customerDao.update(customer);
 
 	customer = customerDao.getById(customer.getId());
 	assertThat(customer.getName(), equalTo(newName));
@@ -102,23 +103,32 @@ public class CustomerHibernateDaoTest extends AbstractHibernateDaoTest {
 
     @Test
     public void listCustomerByName() {
-	String expName = "duplicated name";
-	List<Customer> customers = customerDao.listByColumnValue("name",
-		expName);
+	String nameToSearch = "duplicated name";
+
+	HibernateSearchObject<Customer> searchObject = new HibernateSearchObject(
+		Customer.class);
+	searchObject.addFilterEqual("name", nameToSearch);
+
+	List<Customer> customers = customerDao.listBySearchObject(searchObject);
 	assertNotNull(customers);
 
 	int expSize = 2;
 	assertThat(customers.size(), equalTo(expSize));
 
 	for (Customer customer : customers) {
-	    assertThat(customer.getName(), equalTo(expName));
+	    assertThat(customer.getName(), equalTo(nameToSearch));
 	}
     }
 
     @Test
     public void listCustomerOnHold() {
-	List<Customer> customers = customerDao.listByColumnValue("onHold",
-		Boolean.TRUE);
+	Boolean holdFlagToSearch = Boolean.TRUE;
+
+	HibernateSearchObject<Customer> searchObject = new HibernateSearchObject(
+		Customer.class);
+	searchObject.addFilterEqual("onHold", holdFlagToSearch);
+
+	List<Customer> customers = customerDao.listBySearchObject(searchObject);
 	assertNotNull(customers);
 
 	int expSize = 2;

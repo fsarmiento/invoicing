@@ -18,7 +18,7 @@
 	<invoice_line id="2" invoiceId="1" productCode="PRODUCT2" description="test product 2" unitOfMeasure="EACH" unitPrice="15" vatRate="20"
 		quantity="4" totalExcVat="60" totalIncVat="72" vatValue="12" discountValue="0"/>
 	
-	<invoice_header id="2" account="ACCOUNT1" invoiceDate="2011-06-20" status="1" notes="test note" comments="test comments"
+	<invoice_header id="2" account="ACCOUNT1" invoiceDate="2011-06-20" status="0" notes="test note" comments="test comments"
 		paymentTerms="30 days" paymentRef="TEST" totalExcVat="150" totalIncVat="180" totalVat="30" totalDiscount="0" currency="GBP"/>
 		
 	<invoice_line id="3" invoiceId="2" productCode="PRODUCT1" description="test product 1" unitOfMeasure="EACH" unitPrice="10" vatRate="20"
@@ -27,7 +27,7 @@
 	<invoice_line id="4" invoiceId="2" productCode="PRODUCT2" description="test product 2" unitOfMeasure="EACH" unitPrice="15" vatRate="20"
 		quantity="4" totalExcVat="60" totalIncVat="72" vatValue="12" discountValue="0"/>
 		
-	<invoice_header id="3" account="ACCOUNT2" invoiceDate="2011-05-20" status="1" notes="test note2" comments="test comments2"
+	<invoice_header id="3" account="ACCOUNT2" invoiceDate="2011-05-20" status="0" notes="test note2" comments="test comments2"
 		paymentTerms="IMMEDIATELY" paymentRef="TEST2" totalExcVat="150" totalIncVat="180" totalVat="30" totalDiscount="0" currency="GBP"/>
 		
 </dataset>

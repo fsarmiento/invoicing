@@ -33,7 +33,7 @@ public class InvoiceLineHibernateDaoTest extends AbstractHibernateDaoTest {
 	invoiceLine.setInvoiceHeader(invoiceHeader);
 	assertNull(invoiceLine.getId());
 
-	invoiceLineDao.saveOrUpdate(invoiceLine);
+	invoiceLineDao.save(invoiceLine);
 	assertNotNull(invoiceLine.getId());
 
 	InvoiceLine savedInvoiceLine = invoiceLineDao.getById(invoiceLine
@@ -59,7 +59,7 @@ public class InvoiceLineHibernateDaoTest extends AbstractHibernateDaoTest {
 	invoiceLine.setUnitPrice(newUnitPrice);
 	invoiceLine.setQuantity(newQuantity);
 
-	invoiceLineDao.saveOrUpdate(invoiceLine);
+	invoiceLineDao.update(invoiceLine);
 
 	invoiceLine = invoiceLineDao.getById(new Long(1));
 	assertThat(invoiceLine.getDescription(), equalTo(newDescription));
@@ -69,16 +69,33 @@ public class InvoiceLineHibernateDaoTest extends AbstractHibernateDaoTest {
     }
 
     @Test
-    @ExpectedException(EntityNotFoundException.class)
     public void listByInvalidInvoiceHeader() {
-	invoiceLineDao.listByInvoiceHeader(new Long(-1));
+	HibernateSearchObject<InvoiceLine> searchObject = new HibernateSearchObject(
+		InvoiceLine.class);
+	searchObject.addFilterEqual("invoiceHeader.id", new Long(-1));
+
+	List<InvoiceLine> invoiceLines = invoiceLineDao
+		.listBySearchObject(searchObject);
+	assertThat(invoiceLines.size(), equalTo(0));
     }
 
     @Test
     public void listByInvoiceHeader() {
+	Long invHeaderIdToSearch = new Long(1);
+
+	HibernateSearchObject<InvoiceLine> searchObject = new HibernateSearchObject(
+		InvoiceLine.class);
+	searchObject.addFilterEqual("invoiceHeader.id", invHeaderIdToSearch);
+
 	List<InvoiceLine> invoiceLines = invoiceLineDao
-		.listByInvoiceHeader(new Long(1));
+		.listBySearchObject(searchObject);
 	assertThat(invoiceLines.size(), equalTo(2));
+
+	for (InvoiceLine invLine : invoiceLines) {
+	    InvoiceHeader header = invLine.getInvoiceHeader();
+	    assertNotNull(header);
+	    assertThat(header.getId(), equalTo(invHeaderIdToSearch));
+	}
     }
 
     @Test

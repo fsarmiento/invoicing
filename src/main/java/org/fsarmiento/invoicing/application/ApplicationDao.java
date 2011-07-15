@@ -12,13 +12,4 @@ import org.fsarmiento.invoicing.*;
  */
 public interface ApplicationDao extends GenericDao<Application> {
 
-	/**
-	 * List by customer.
-	 * 
-	 * @param account
-	 *            the account
-	 * @return the list
-	 */
-	List<Application> listByCustomer(String account);
-
 }
