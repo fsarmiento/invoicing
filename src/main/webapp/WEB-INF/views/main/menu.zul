@@ -18,8 +18,8 @@
 					<tabpanels>
 						<tabpanel>Home</tabpanel>
 						<tabpanel>
-							<button id="btnListCustomers"
-								label="Customers" hflex="1"/>
+							<button id="btnManageCustomers"
+								label="Manage Customers" hflex="1"/>
 						</tabpanel>
 						<tabpanel>
 							<button id="btnListInvoices"
@@ -31,6 +31,7 @@
 				</tabbox>
 			</west>
 			<center flex="true" id="contentContainer">
+				<include src="" id="contents"/>
 			</center>
 		</borderlayout>
 	</window>

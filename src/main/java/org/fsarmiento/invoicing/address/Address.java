@@ -2,7 +2,7 @@ package org.fsarmiento.invoicing.address;
 
 import javax.persistence.*;
 
-import org.fsarmiento.invoicing.AbstractEntity;
+import org.fsarmiento.invoicing.*;
 
 /**
  * The Class Address.
@@ -13,7 +13,7 @@ import org.fsarmiento.invoicing.AbstractEntity;
 @Entity(name = "address")
 public class Address extends AbstractEntity {
 
-    @Column(length = 64)
+    @Column(length = 64, nullable = false)
     private String address1;
 
     @Column(length = 64)

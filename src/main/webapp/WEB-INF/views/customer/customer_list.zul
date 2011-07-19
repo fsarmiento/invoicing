@@ -2,22 +2,23 @@
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" root="./winCustomerList"?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 <zk>
-	<include src="/WEB-INF/views/customer/customer_popup_menu.zul"/>
-	<include src="/WEB-INF/views/customer/customer_list_popup_menu.zul"/>
-	
+	<include src="/WEB-INF/views/customer/customer_popup_menu.zul" />
+	<include src="/WEB-INF/views/customer/customer_list_popup_menu.zul" />
+
 	<window title="Customers" border="normal" id="winCustomerList"
-		height="100%">
+		apply="${customerListController}" height="100%">
 		<borderlayout>
 			<north height="10%" border="none" size="25px" flex="true">
 				<borderlayout>
 					<west width="50%" border="none">
-						<hlayout>
-							<button label="Add" id="btnAdd"/>
-							<separator bar="true" />
-							<button label="Edit" id="btnEdit"/>
-							<separator bar="true" />
-							<button label="Delete" id="btnDelete"/>
-						</hlayout>
+						<toolbar>
+							<toolbarbutton id="btnAddCustomer"
+								label="Add" />
+							<toolbarbutton id="btnEditCustomer"
+								label="Edit" />
+							<toolbarbutton id="btnDeleteCustomers"
+								label="Delete" />
+						</toolbar>
 					</west>
 					<east width="50%" border="none">
 						<hlayout>
@@ -28,36 +29,23 @@
 				</borderlayout>
 			</north>
 			<center border="none">
-				<vlayout height="100%" style="padding: 5px">							
-				<zscript>
-						<![CDATA[
-							import org.fsarmiento.invoicing.customer.Customer;
-							import java.util.*;
-							
-							List custList = new ArrayList();
-							
-							for (int index=1; index<=100; index++) {
-							    Customer customer = new Customer();							   
-							    customer.setAccount("Account " + index);
-							    customer.setName("Test Name " + index);
-							    custList.add(customer);
-							}		
-							
-							Customer selected;
-						]]>
-					</zscript>	
-					<listbox id="customerList" multiple="true" mold="paging" autopaging="true"
-						checkmark="true" model="@{custList}"
-						selectedItem="@{selected}" vflex="true" pagingPosition="bottom" context="customerListPopup">
-						<listhead>							
+				<vlayout height="100%" style="padding: 5px">
+					<listbox id="lbCustomerList" multiple="true"
+						mold="paging" autopaging="true" checkmark="true"
+						model="@{custList}"
+						selectedItem="@{customerListController.selectedCustomer}"
+						vflex="true" pagingPosition="bottom"
+						context="customerListPopup">
+						<listhead>
 							<listheader label="Account" sort="auto" />
 							<listheader label="Name" sort="auto" />
-						</listhead>			    
- 						<listitem self="@{each=cust}" context="customerPopup">							
-							<listcell label="@{cust.account}"/>
+						</listhead>
+						<listitem self="@{each=cust}"
+							context="customerPopup" onDoubleClick="customerListController.onDoubleClickCustomer(self)">
+							<listcell label="@{cust.account}" />
 							<listcell label="@{cust.name}" />
 						</listitem>
-					</listbox>					
+					</listbox>
 				</vlayout>
 			</center>
 		</borderlayout>

@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<listener>
-	<listener-class>org.fsarmiento.invoicing.SystemInfoResolver</listener-class>
-</listener>
+<zk>
+	<library-property>
+		<name>org.zkoss.zul.listbox.rightSelect</name>
+		<value>false</value>
+	</library-property>
+	<library-property>
+		<name>org.zkoss.zul.progressbox.position</name>
+		<value>center</value>
+	</library-property>
+</zk>
+

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" root="./winAddEditCustomer"?>
+
+<window id="winAddEditCustomer" apply="${customerController}"
+	title="New/Edit Customer" height="600px" width="600px" mode="modal"
+	closable="true">
+	<borderlayout>
+		<north flex="true" border="none">
+			<grid>
+				<rows>
+					<row>
+						<label value="Account" />
+						<textbox id="account"
+							value="@{customerController.customerModel.customer.account}"
+							constraint="no empty" />
+					</row>
+					<row>
+						<label value="Name" />
+						<textbox id="name"
+							value="@{customerController.customerModel.customer.name}"
+							constraint="no empty" />
+					</row>
+				</rows>
+			</grid>
+		</north>
+		<center>This where the address tab will show</center>
+		<south>
+			<hlayout>
+				<button id="btnSaveOrUpdateCustomer"
+					label="Save/Update" />
+				<button id="btnDeleteCustomer" label="Delete" />
+				<button id="btnClose" label="Close"/>
+			</hlayout>
+		</south>
+	</borderlayout>
+</window>

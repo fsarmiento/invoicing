@@ -4,11 +4,13 @@ import java.util.*;
 
 public interface CustomerService {
 
-    void saveCustomer(Customer customer);
+    void save(Customer customer);
+
+    void update(Customer customer);
 
     List<Customer> listCustomers();
 
-    Customer getCustomer(String account);
+    Customer getByAccount(String account);
 
-    void deleteCustomer(Customer customer);
+    void delete(Customer customer);
 }
