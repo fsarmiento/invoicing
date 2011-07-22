@@ -139,4 +139,12 @@ public class ApplicationListController extends GenericForwardComposer {
 	    appList.add(application);
 	}
     }
+
+    public void onClick$btnAdd(Event evt) throws WrongValueException,
+	    InterruptedException {
+	logger.info("onClick$btnAdd has been clicked");
+	Messagebox.show("There are "
+		+ lbApplicationList.getSelectedItems().size()
+		+ " selected applications");
+    }
 }

@@ -2,6 +2,8 @@ package org.fsarmiento.invoicing.customer.web;
 
 import java.util.*;
 
+import org.fsarmiento.invoicing.*;
+import org.fsarmiento.invoicing.application.*;
 import org.fsarmiento.invoicing.customer.*;
 import org.fsarmiento.invoicing.shared.web.*;
 import org.slf4j.*;
@@ -11,11 +13,14 @@ import org.springframework.stereotype.*;
 import org.zkoss.zk.ui.*;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.*;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.util.*;
 import org.zkoss.zul.*;
 
+import com.googlecode.genericdao.search.*;
+
 @Controller("customerListController")
-@Scope("desktop")
+@Scope("prototype")
 public class CustomerListController extends GenericForwardComposer {
 
     private Logger logger = LoggerFactory
@@ -23,25 +28,110 @@ public class CustomerListController extends GenericForwardComposer {
 
     private Customer selectedCustomer;
 
-    private List<Customer> custList;
+    private Listbox lbCustomerList;
 
     @Autowired
     private CustomerService customerService;
 
+    private HibernateSearchObject<Customer> custSearchObject;
+
+    private Paging customerPaging;
+
+    private Button btnEdit;
+
+    // @Override
+    // public void doBeforeComposeChildren(Component comp) throws Exception {
+    // super.doBeforeComposeChildren(comp);
+    //
+    // custList = new ArrayList<Customer>();
+    //
+    // for (int index = 1; index <= 100; index++) {
+    // Customer customer = new Customer();
+    // customer.setAccount("Account " + index);
+    // customer.setName("Test Name " + index);
+    // custList.add(customer);
+    // }
+    //
+    // comp.setAttribute("custList", custList);
+    // }
+
     @Override
-    public void doBeforeComposeChildren(Component comp) throws Exception {
-	super.doBeforeComposeChildren(comp);
+    public void doAfterCompose(Component comp) throws Exception {
+	super.doAfterCompose(comp);
 
-	custList = new ArrayList<Customer>();
+	// currently doesn't work due to prototype scope
+	// need to find a way round it
+	// registerEventListeners();
+    }
 
-	for (int index = 1; index <= 100; index++) {
-	    Customer customer = new Customer();
-	    customer.setAccount("Account " + index);
-	    customer.setName("Test Name " + index);
-	    custList.add(customer);
+    private void registerEventListeners() {
+	EventQueue customerEventQueue = EventQueues
+		.lookup(InvoicingEventQueue.CUSTOMER.getName());
+
+	registerOnSelectCustomerEventListener(customerEventQueue);
+    }
+
+    private void registerOnSelectCustomerEventListener(
+	    EventQueue customerEventQueue) {
+	EventListener eventListener = (EventListener) Executions.getCurrent()
+		.getDesktop().getAttribute(CustomerEvent.ON_SELECT.getName());
+
+	if (eventListener == null) {
+	    eventListener = createCustomerEventListener();
+
+	} else if (customerEventQueue.isSubscribed(eventListener)) {
+	    // we need to unregister the old listener
+	    // as it's attached to the old page
+	    customerEventQueue.unsubscribe(eventListener);
+	    eventListener = createCustomerEventListener();
 	}
 
-	comp.setAttribute("custList", custList);
+	Executions.getCurrent().getDesktop()
+		.setAttribute(CustomerEvent.ON_SELECT.getName(), eventListener);
+	customerEventQueue.subscribe(eventListener);
+    }
+
+    private EventListener createCustomerEventListener() {
+	return new EventListener() {
+
+	    @SuppressWarnings("unchecked")
+	    @Override
+	    public void onEvent(Event evt) throws Exception {
+		if (evt.getName().equals(CustomerEvent.ON_SELECT.getName())) {
+		    Set tmp = (Set) evt.getData();
+		    if (tmp.isEmpty()) {
+			btnEdit.setDisabled(true);
+		    } else {
+			btnEdit.setDisabled(false);
+		    }
+
+		    btnEdit.invalidate();
+		}
+	    }
+	};
+    }
+
+    public void onCreate$winCustomerList(Event event)
+	    throws WrongValueException, InterruptedException {
+	logger.info("Creating a new window: winCustomerList");
+
+	int testPageSize = 2;
+
+	custSearchObject = new HibernateSearchObject(Customer.class);
+	custSearchObject.setFirstResult(0);
+	custSearchObject.setMaxResults(testPageSize);
+
+	customerPaging.setPageSize(testPageSize);
+	customerPaging.setDetailed(true);
+
+	SearchResult searchResult = customerService
+		.getSearchResultBySearchObject(custSearchObject);
+
+	logger.info("No of results " + searchResult.getResult().size());
+	logger.info("No of total count " + searchResult.getTotalCount());
+
+	lbCustomerList.setModel(new CustomerPagedListWrapper(lbCustomerList,
+		customerPaging, searchResult, custSearchObject));
     }
 
     public void onClick$btnAdd(Event evt) throws WrongValueException,
@@ -73,11 +163,14 @@ public class CustomerListController extends GenericForwardComposer {
 	Customer customer = (Customer) custListModel.getElementAt(item
 		.getIndex());
 
-	logger.info("onClickCustomer " + customer.getAccount());
+	EventQueue customerEventQueue = EventQueues.lookup(
+		InvoicingEventQueue.CUSTOMER.getName(), true);
 
-	EventQueues.lookup(InvoicingEventQueue.CUSTOMER.getName(),
-		EventQueues.DESKTOP, true).publish(
-		new Event(CustomerEvent.ON_CLICK.getName(), null, customer));
+	customerEventQueue.publish(new Event(CustomerEvent.ON_CLICK.getName(),
+		null, customer));
+
+	customerEventQueue.publish(new Event(CustomerEvent.ON_SELECT.getName(),
+		null, lbCustomerList.getSelectedItems()));
     }
 
     private void openCustomerScreen(Customer customer)

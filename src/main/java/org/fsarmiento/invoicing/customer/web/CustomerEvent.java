@@ -4,6 +4,8 @@ public enum CustomerEvent {
 
     ON_CLICK("onClick"),
 
+    ON_SELECT("onSelect"),
+
     ON_DOUBLE_CLICK("onDoubleClick"),
 
     ON_UPDATE("onUpdate"),

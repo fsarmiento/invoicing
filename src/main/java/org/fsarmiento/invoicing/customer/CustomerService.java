@@ -2,7 +2,9 @@ package org.fsarmiento.invoicing.customer;
 
 import java.util.*;
 
-public interface CustomerService {
+import org.fsarmiento.invoicing.*;
+
+public interface CustomerService extends SearchService<Customer> {
 
     void save(Customer customer);
 

@@ -22,26 +22,26 @@
 				</toolbar>
 			</north>
 			<center>
-				<listbox id="lbCustomerList" multiple="true"
-					mold="paging" autopaging="true" checkmark="true"
-					model="@{custList}"
-					selectedItem="@{customerListController.selectedCustomer}"
-					vflex="true" pagingPosition="bottom"
-					context="popupCustomerListMenu">
-					<listhead>
-						<listheader
-							label="${c:l('view.customer.account')}" sort="auto" />
-						<listheader label="${c:l('view.customer.name')}"
-							sort="auto" />
-					</listhead>
-					<listitem self="@{each=cust}"
-						context="popupCustomerMenu"
-						onDoubleClick="customerListController.onDoubleClickCustomer(self)"
-						onClick="customerListController.onClickCustomer(self)">
-						<listcell label="@{cust.account}" />
-						<listcell label="@{cust.name}" />
-					</listitem>
-				</listbox>
+				<vlayout height="100%">					
+					<listbox id="lbCustomerList" multiple="true"
+						checkmark="true" selectedItem="@{customerListController.selectedCustomer}"
+						vflex="true" context="popupCustomerListMenu">
+						<listhead sizable="true">
+							<listheader
+								label="${c:l('view.customer.account')}" sort="auto" />
+							<listheader
+								label="${c:l('view.customer.name')}" sort="auto" />
+						</listhead>
+						<listitem self="@{each=cust}"
+							context="popupCustomerMenu"
+							onDoubleClick="customerListController.onDoubleClickCustomer(self)"
+							onClick="customerListController.onClickCustomer(self)">
+							<listcell label="@{cust.account}" />
+							<listcell label="@{cust.name}" />
+						</listitem>
+					</listbox>
+					<paging id="customerPaging" autohide="true"/>
+				</vlayout>
 			</center>
 		</borderlayout>
 	</window>

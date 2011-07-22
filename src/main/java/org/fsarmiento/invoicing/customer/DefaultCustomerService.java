@@ -2,6 +2,7 @@ package org.fsarmiento.invoicing.customer;
 
 import java.util.*;
 
+import org.fsarmiento.invoicing.*;
 import org.fsarmiento.invoicing.address.*;
 import org.fsarmiento.invoicing.exception.*;
 import org.slf4j.*;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 import org.springframework.util.*;
+
+import com.googlecode.genericdao.search.*;
 
 @Service
 @Transactional
@@ -41,5 +44,17 @@ public class DefaultCustomerService implements CustomerService {
 
     public void delete(Customer customer) {
 	customerDao.delete(customer);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Customer> listBySearchObject(
+	    HibernateSearchObject<Customer> searchObject) {
+	return customerDao.listBySearchObject(searchObject);
+    }
+
+    @Transactional(readOnly = true)
+    public SearchResult<Customer> getSearchResultBySearchObject(
+	    HibernateSearchObject<Customer> searchObject) {
+	return customerDao.getSearchResultBySearchObject(searchObject);
     }
 }

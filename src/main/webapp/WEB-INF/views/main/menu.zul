@@ -26,7 +26,7 @@
 						</tabpanel>
 						<tabpanel>
 							<button id="btnListInvoices"
-								label="menu.tab.customers.manageinvoices.title" hflex="1" />
+								label="${c:l('menu.tab.invoices.manageinvoices.title')}" hflex="1" />
 						</tabpanel>
 						<tabpanel>Reports</tabpanel>
 						<tabpanel>Settings</tabpanel>
