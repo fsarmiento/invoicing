@@ -1,52 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" root="./winCustomerList"?>
-<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 <zk>
 	<include src="/WEB-INF/views/customer/customer_popup_menu.zul" />
 	<include src="/WEB-INF/views/customer/customer_list_popup_menu.zul" />
 
-	<window title="Customers" border="normal" id="winCustomerList"
-		apply="${customerListController}" height="100%">
+	<window title="${c:l('view.customer.list.title')}" border="normal"
+		id="winCustomerList" apply="${customerListController}"
+		height="100%">
+
 		<borderlayout>
 			<north height="10%" border="none" size="25px" flex="true">
-				<borderlayout>
-					<west width="50%" border="none">
-						<toolbar>
-							<toolbarbutton id="btnAddCustomer"
-								label="Add" />
-							<toolbarbutton id="btnEditCustomer"
-								label="Edit" />
-							<toolbarbutton id="btnDeleteCustomers"
-								label="Delete" />
-						</toolbar>
-					</west>
-					<east width="50%" border="none">
-						<hlayout>
-							<textbox maxlength="20" />
-							<button label="Search" />
-						</hlayout>
-					</east>
-				</borderlayout>
+				<toolbar>
+					<toolbarbutton id="btnAdd"
+						label="${c:l('button.add')}" />
+					<toolbarbutton id="btnEdit"
+						label="${c:l('button.edit')}" />
+					<toolbarbutton id="btnSearch"
+						label="${c:l('button.search')}" />
+					<toolbarbutton id="btnDelete"
+						label="${c:l('button.delete')}" />
+				</toolbar>
 			</north>
-			<center border="none">
-				<vlayout height="100%" style="padding: 5px">
-					<listbox id="lbCustomerList" multiple="true"
-						mold="paging" autopaging="true" checkmark="true"
-						model="@{custList}"
-						selectedItem="@{customerListController.selectedCustomer}"
-						vflex="true" pagingPosition="bottom"
-						context="customerListPopup">
-						<listhead>
-							<listheader label="Account" sort="auto" />
-							<listheader label="Name" sort="auto" />
-						</listhead>
-						<listitem self="@{each=cust}"
-							context="customerPopup" onDoubleClick="customerListController.onDoubleClickCustomer(self)">
-							<listcell label="@{cust.account}" />
-							<listcell label="@{cust.name}" />
-						</listitem>
-					</listbox>
-				</vlayout>
+			<center>
+				<listbox id="lbCustomerList" multiple="true"
+					mold="paging" autopaging="true" checkmark="true"
+					model="@{custList}"
+					selectedItem="@{customerListController.selectedCustomer}"
+					vflex="true" pagingPosition="bottom"
+					context="popupCustomerListMenu">
+					<listhead>
+						<listheader
+							label="${c:l('view.customer.account')}" sort="auto" />
+						<listheader label="${c:l('view.customer.name')}"
+							sort="auto" />
+					</listhead>
+					<listitem self="@{each=cust}"
+						context="popupCustomerMenu"
+						onDoubleClick="customerListController.onDoubleClickCustomer(self)"
+						onClick="customerListController.onClickCustomer(self)">
+						<listcell label="@{cust.account}" />
+						<listcell label="@{cust.name}" />
+					</listitem>
+				</listbox>
 			</center>
 		</borderlayout>
 	</window>

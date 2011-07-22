@@ -2,28 +2,31 @@
 <?page title="Invoicing" contentType="text/html;charset=UTF-8"?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c" ?>
+
 <zk>
 	<window height="100%" id="winApp" apply="${menuController}">
 		<borderlayout id="appLayout">
-			<west title="What would you like to do today?" flex="true" collapsible="true" size="15%"
-				id="menuContainer">
+			<west title="${c:l('menu.tab.title')}" flex="true"
+				collapsible="true" size="15%" id="menuContainer">
 				<tabbox id="menu" mold="accordion">
 					<tabs>
-						<tab label="Home" />
-						<tab label="Customers" />
-						<tab label="Invoices" />
-						<tab label="Reports" />
-						<tab label="Settings" />
+						<tab label="${c:l('menu.tab.home.title')}" />
+						<tab label="${c:l('menu.tab.customers.title')}" />
+						<tab label="${c:l('menu.tab.invoices.title')}" />
+						<tab label="${c:l('menu.tab.reports.title')}" />
+						<tab label="${c:l('menu.tab.settings.title')}" />
 					</tabs>
 					<tabpanels>
 						<tabpanel>Home</tabpanel>
 						<tabpanel>
 							<button id="btnManageCustomers"
-								label="Manage Customers" hflex="1"/>
+								label="${c:l('menu.tab.customers.managecustomers.title')}"
+								hflex="1" />
 						</tabpanel>
 						<tabpanel>
 							<button id="btnListInvoices"
-								label="Invoices" hflex="1"/>
+								label="menu.tab.customers.manageinvoices.title" hflex="1" />
 						</tabpanel>
 						<tabpanel>Reports</tabpanel>
 						<tabpanel>Settings</tabpanel>
@@ -31,7 +34,7 @@
 				</tabbox>
 			</west>
 			<center flex="true" id="contentContainer">
-				<include src="" id="contents"/>
+				<include src="" id="contents" />
 			</center>
 		</borderlayout>
 	</window>

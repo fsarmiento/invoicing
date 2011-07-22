@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<borderlayout>
+	<north height="10%" border="none">
+		<hlayout self="@{insert(contentToolbar)}" />		
+	</north>
+	<center>
+		<vlayout self="@{insert(contentList)}">
+			<label value="Hello Page"></label>
+		</vlayout>		
+	</center>
+</borderlayout>

@@ -1,67 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" root="./winApplicationList"?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 <zk>
-	<window border="none" id="winApplicationList" height="100%">
-		<zscript>
-				<![CDATA[
-				    import org.fsarmiento.invoicing.application.Application;
-				    import org.fsarmiento.invoicing.application.ApplicationProduct;
-				    import java.math.*;
-				    
-					    List appList = new ArrayList();
-					    
-					    for (int index = 1; index <= 50; index++) {
-							Application application = new Application();
-							application.setName("App " + index);
-							application.setDescription("Test Description " + index);
-													
-							for (int prodIndex = 1; prodIndex <= 10; prodIndex++) {
-							    ApplicationProduct product = new ApplicationProduct();							    
-							    product.setProductCode("App " + index + "-Prod" +  prodIndex);
-							    product.setDescription("App " + index + " product " + prodIndex);
-							    product.setUnitOfMeasure("EACH");
-							    product.setUnitPrice(new BigDecimal(10.25));
-							    application.addApplicationProduct(product);
-							}
-							
-							appList.add(application);
-				    	}
-					    
-				    	Application selected = appList.get(0);
-				]]>
-		</zscript>
-		<vlayout height="100%" style="padding: 5px">			
-			<listbox id="applicationList" multiple="true" mold="paging"
-				autopaging="true" checkmark="true" model="@{appList}"
-				selectedItem="@{selected}" vflex="true" pagingPosition="bottom">
-				<listhead>
-					<listheader label="Name" sort="auto" />
-					<listheader label="Descrption" sort="auto" />
-				</listhead>
-				<listitem self="@{each=app}" tooltip="productsPopup, position=end_before" >
-					<listcell label="@{app.name}" />
-					<listcell label="@{app.description}" />
-				</listitem>
-			</listbox>
-		</vlayout>
-		<popup id="productsPopup">
-		<listbox id="productList" model="@{selected.applicationProducts}"
-				vflex="true" width="700px">
-				<listhead>
-					<listheader label="Product Code" sort="auto" />
-					<listheader label="Descrption" sort="auto" />
-					<listheader label="UOM" sort="auto" />
-					<listheader label="Unit Price" sort="auto" />
-				</listhead>
-				<listitem self="@{each=product}">
-					<listcell label="@{product.productCode}" />
-					<listcell label="@{product.description}" />
-					<listcell label="@{product.unitOfMeasure}" />
-					<listcell label="@{product.unitPrice}" />
-				</listitem>
-		</listbox>	
-		</popup>
+	<window border="none" id="winApplicationList" height="100%"
+		apply="${applicationListController}">
+
+		<borderlayout>
+			<north height="10%" border="none" size="25px" flex="true">
+				<toolbar>
+					<toolbarbutton id="btnAdd"
+						label="${c:l('button.add')}" />
+					<toolbarbutton id="btnEdit"
+						label="${c:l('button.edit')}" />
+					<toolbarbutton id="btnSearch"
+						label="${c:l('button.search')}" />
+					<toolbarbutton id="btnDelete"
+						label="${c:l('button.delete')}" />
+				</toolbar>
+			</north>
+			<center>
+				<listbox id="lbApplicationList" multiple="true"
+					mold="paging" autopaging="true" checkmark="true" model="@{appList}"
+					selectedItem="@{selected}" vflex="true" pagingPosition="bottom">
+					<listhead>
+						<listheader
+							label="${c:l('view.application.name')}" sort="auto" />
+						<listheader
+							label="${c:l('view.application.description')}" sort="auto" />
+					</listhead>
+					<listitem self="@{each=app}">
+						<listcell label="@{app.name}" />
+						<listcell label="@{app.description}" />
+					</listitem>
+				</listbox>
+			</center>
+		</borderlayout>
+
+		<listbox id="lbProductListTemplate" vflex="true" width="700px"
+			visible="false">
+			<listhead>
+				<listheader
+					label="${c:l('view.application.product.productCode')}" sort="auto" />
+				<listheader
+					label="${c:l('view.application.product.description')}" sort="auto" />
+				<listheader
+					label="${c:l('view.application.product.uom')}" sort="auto" />
+				<listheader
+					label="${c:l('view.application.product.unitPrice')}" sort="auto" />
+			</listhead>
+			<listitem self="@{each=product}">
+				<listcell label="@{product.productCode}" />
+				<listcell label="@{product.description}" />
+				<listcell label="@{product.unitOfMeasure}" />
+				<listcell label="@{product.unitPrice}" />
+			</listitem>
+		</listbox>
+
 	</window>
-	
+
 </zk>

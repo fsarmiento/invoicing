@@ -1,7 +1,7 @@
 <zk>
-	<menupopup id="customerPopup">
-		<menuitem label="Edit/View" />
+	<menupopup id="popupCustomerMenu">
+		<menuitem label="${c:l('button.edit')}" />
 		<menuseparator />
-		<menuitem label="Delete" />
+		<menuitem label="${c:l('button.delete')}" />
 	</menupopup>
 </zk>

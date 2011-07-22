@@ -1,5 +1,5 @@
 <zk>
-	<menupopup id="customerListPopup">
-		<menuitem label="Add" />
+	<menupopup id="popupCustomerListMenu">
+		<menuitem label="${c:l('button.add')}" />
 	</menupopup>
 </zk>

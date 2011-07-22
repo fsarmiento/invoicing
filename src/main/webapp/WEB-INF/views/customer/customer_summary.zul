@@ -13,7 +13,7 @@
 					<include
 						src="/WEB-INF/views/application/application_list.zul" />
 				</tabpanel>
-				<tabpanel>Panel for Invoice Schedule</tabpanel>
+				<tabpanel>Panel for Invoice Schedules</tabpanel>
 				<tabpanel>Panel for Invoice History</tabpanel>
 				<tabpanel>Panel for Payment History</tabpanel>
 			</tabpanels>

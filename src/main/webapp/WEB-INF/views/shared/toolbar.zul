@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk>
+	<toolbar>
+		<toolbarbutton id="btnAdd" label="${c:l('menu.tab.home.title')}" />
+		<toolbarbutton id="btnEdit" label="${c:l('menu.tab.home.title')}" />
+		<toolbarbutton id="btnSearch" label="${c:l('menu.tab.home.title')}" />
+		<toolbarbutton id="btnDelete" label="${c:l('menu.tab.home.title')}" />
+	</toolbar>
+</zk>

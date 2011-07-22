@@ -25,6 +25,8 @@ public class CustomerController extends GenericForwardComposer {
 	    throws Exception {
 	super.doBeforeComposeChildren(comp);
 
+	logger.info("doBeforeCompose");
+
 	customerModel = new CustomerModel();
 
 	Customer customer = (Customer) Executions.getCurrent().getSession()
@@ -46,8 +48,7 @@ public class CustomerController extends GenericForwardComposer {
 	customerModel.setCustomer(customer);
     }
 
-    public void onClick$btnSaveOrUpdateCustomer(Event evt)
-	    throws InterruptedException {
+    public void onClick$btnSave(Event evt) throws InterruptedException {
 	logger.info("onSaveOrUpdate is called");
 
 	Customer customer = customerModel.getCustomer();
@@ -62,8 +63,7 @@ public class CustomerController extends GenericForwardComposer {
 	onClick$btnClose(evt);
     }
 
-    public void onClick$btnDeleteCustomer(Event evt)
-	    throws InterruptedException {
+    public void onClick$btnDelete(Event evt) throws InterruptedException {
 	logger.info("delete has been clicked!");
 	customerService.delete(customerModel.getCustomer());
     }
