@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zk>
-	<?forward uri="/WEB-INF/views/main/menu.zul"?>
+	<?forward uri="/WEB-INF/views/main/home.zul"?>
 </zk>

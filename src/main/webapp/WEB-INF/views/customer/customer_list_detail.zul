@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+	<vlayout height="100%">
+		<listbox id="lbCustomerList" vflex="true">
+			<listhead sizable="true">
+				<listheader label="${c:l('view.customer.account')}"
+					sort="auto" />
+				<listheader label="${c:l('view.customer.name')}"
+					sort="auto" />
+			</listhead>
+			<listitem self="@{each=cust}">
+				<listcell label="@{cust.account}" />
+				<listcell label="@{cust.name}" />
+			</listitem>
+		</listbox>
+		<paging id="customerPaging" autohide="true" />
+	</vlayout>
+</zk>

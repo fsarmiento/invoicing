@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk>
+	<borderlayout>
+		<north height="10%" border="none">
+			<window id="header" border="none">
+				<label value="This is the header"/>
+			</window>
+		</north>
+		<center>
+			<vlayout self="@{insert(mainBody)}"/>
+		</center>
+		<south height="5%" border="none">
+			<window id="footer" border="none">
+				<label value="This is the footer"/>
+			</window>
+		</south>
+	</borderlayout>
+</zk>
+
+

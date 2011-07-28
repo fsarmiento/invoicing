@@ -39,29 +39,13 @@ public class CustomerListController extends GenericForwardComposer {
 
     private Button btnEdit;
 
-    // @Override
-    // public void doBeforeComposeChildren(Component comp) throws Exception {
-    // super.doBeforeComposeChildren(comp);
-    //
-    // custList = new ArrayList<Customer>();
-    //
-    // for (int index = 1; index <= 100; index++) {
-    // Customer customer = new Customer();
-    // customer.setAccount("Account " + index);
-    // customer.setName("Test Name " + index);
-    // custList.add(customer);
-    // }
-    //
-    // comp.setAttribute("custList", custList);
-    // }
-
     @Override
     public void doAfterCompose(Component comp) throws Exception {
 	super.doAfterCompose(comp);
 
 	// currently doesn't work due to prototype scope
 	// need to find a way round it
-	// registerEventListeners();
+	registerEventListeners();
     }
 
     private void registerEventListeners() {
@@ -75,6 +59,14 @@ public class CustomerListController extends GenericForwardComposer {
 	    EventQueue customerEventQueue) {
 	EventListener eventListener = (EventListener) Executions.getCurrent()
 		.getDesktop().getAttribute(CustomerEvent.ON_SELECT.getName());
+
+	// lbCustomerList.addEventListener("onSelect", new EventListener() {
+	//
+	// // @Override
+	// // public void onEvent(Event event) throws Exception {
+	// // event.
+	// // }
+	// });
 
 	if (eventListener == null) {
 	    eventListener = createCustomerEventListener();
@@ -99,6 +91,10 @@ public class CustomerListController extends GenericForwardComposer {
 	    public void onEvent(Event evt) throws Exception {
 		if (evt.getName().equals(CustomerEvent.ON_SELECT.getName())) {
 		    Set tmp = (Set) evt.getData();
+
+		    logger.info("createCustomerEventListener: No of selected items = "
+			    + tmp.size());
+
 		    if (tmp.isEmpty()) {
 			btnEdit.setDisabled(true);
 		    } else {
@@ -159,6 +155,8 @@ public class CustomerListController extends GenericForwardComposer {
 
     public void onClickCustomer(Listitem item) {
 	Listbox parent = (Listbox) item.getParent();
+	logger.info("No of selected items = " + parent.getSelectedCount());
+
 	ListModel custListModel = parent.getListModel();
 	Customer customer = (Customer) custListModel.getElementAt(item
 		.getIndex());
@@ -169,8 +167,9 @@ public class CustomerListController extends GenericForwardComposer {
 	customerEventQueue.publish(new Event(CustomerEvent.ON_CLICK.getName(),
 		null, customer));
 
-	customerEventQueue.publish(new Event(CustomerEvent.ON_SELECT.getName(),
-		null, lbCustomerList.getSelectedItems()));
+	// customerEventQueue.publish(new
+	// Event(CustomerEvent.ON_SELECT.getName(),
+	// null, parent.getSelectedItems()));
     }
 
     private void openCustomerScreen(Customer customer)

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" root="./winHomeCustomerList"?>
+<zk>
+	<window id="winHomeCustomerList"
+		apply="${homeCustomerListController}" height="100%">
+		<borderlayout>
+			<center style="padding: 5px" border="none">
+				<include id="incCustomerListDetail"
+					src="/WEB-INF/views/customer/customer_list_detail.zul" />
+			</center>
+			<south height="10%" style="padding: 5px" border="none">
+				<button id="btnManageCustomers" label="Manage Customers"
+					hflex="1" vflex="1" />
+			</south>
+		</borderlayout>
+	</window>
+</zk>
