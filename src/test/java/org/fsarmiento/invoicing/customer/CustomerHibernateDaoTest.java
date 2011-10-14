@@ -27,8 +27,9 @@ public class CustomerHibernateDaoTest extends AbstractHibernateDaoTest {
 	String account = "testAccount";
 
 	Customer customer = new Customer();
-	customer.setName(name);
+	customer.setLastname(name);
 	customer.setAccount(account);
+	customer.setStatus(CustomerStatus.ACTIVE);
 	assertThat(customer.getId(), nullValue());
 
 	customerDao.save(customer);
@@ -38,42 +39,13 @@ public class CustomerHibernateDaoTest extends AbstractHibernateDaoTest {
     @Test
     public void updateCustomer() {
 	Customer customer = customerDao.getById(new Long(1));
-	assertThat(customer.getName(), equalTo("test name1"));
+	assertThat(customer.getStatus(), equalTo(CustomerStatus.ACTIVE));
 
-	String newName = "New Name";
-	customer.setName(newName);
+	customer.setStatus(CustomerStatus.ON_HOLD);
 	customerDao.update(customer);
 
 	customer = customerDao.getById(customer.getId());
-	assertThat(customer.getName(), equalTo(newName));
-    }
-
-    @Test
-    public void updateCustomerAndAddress() {
-	Customer customer = customerDao.getById(new Long(1));
-	assertThat(customer.getName(), equalTo("test name1"));
-
-	Address address = customer.getBillingAddress();
-	assertNotNull(address);
-	assertThat(address.getAddress1(), equalTo("1 Test Road"));
-	assertThat(address.getCity(), equalTo("No Bug City"));
-
-	String newName = "New Name";
-	customer.setName(newName);
-
-	String newAddress1 = "2 Success Road";
-	String newCity = "Bugless City";
-	address.setAddress1(newAddress1);
-	address.setCity(newCity);
-	customer.setBillingAddress(address);
-
-	customerDao.update(customer);
-
-	customer = customerDao.getById(customer.getId());
-	assertThat(customer.getName(), equalTo(newName));
-
-	Address updatedAddress = customer.getBillingAddress();
-	assertThat(updatedAddress, equalTo(address));
+	assertThat(customer.getStatus(), equalTo(CustomerStatus.ON_HOLD));
     }
 
     @Test
@@ -103,11 +75,11 @@ public class CustomerHibernateDaoTest extends AbstractHibernateDaoTest {
 
     @Test
     public void listCustomerByName() {
-	String nameToSearch = "duplicated name";
+	String nameToSearch = "duplicated";
 
 	HibernateSearchObject<Customer> searchObject = new HibernateSearchObject(
 		Customer.class);
-	searchObject.addFilterEqual("name", nameToSearch);
+	searchObject.addFilterEqual("lastname", nameToSearch);
 
 	List<Customer> customers = customerDao.listBySearchObject(searchObject);
 	assertNotNull(customers);
@@ -116,26 +88,24 @@ public class CustomerHibernateDaoTest extends AbstractHibernateDaoTest {
 	assertThat(customers.size(), equalTo(expSize));
 
 	for (Customer customer : customers) {
-	    assertThat(customer.getName(), equalTo(nameToSearch));
+	    assertThat(customer.getLastname(), equalTo(nameToSearch));
 	}
     }
 
     @Test
-    public void listCustomerOnHold() {
-	Boolean holdFlagToSearch = Boolean.TRUE;
-
+    public void listActiveCustomers() {
 	HibernateSearchObject<Customer> searchObject = new HibernateSearchObject(
 		Customer.class);
-	searchObject.addFilterEqual("onHold", holdFlagToSearch);
+	searchObject.addFilterEqual("status", CustomerStatus.ACTIVE);
 
 	List<Customer> customers = customerDao.listBySearchObject(searchObject);
 	assertNotNull(customers);
 
-	int expSize = 2;
+	int expSize = 3;
 	assertThat(customers.size(), equalTo(expSize));
 
 	for (Customer customer : customers) {
-	    assertTrue(customer.getOnHold());
+	    assertThat(customer.getStatus(), equalTo(CustomerStatus.ACTIVE));
 	}
     }
 

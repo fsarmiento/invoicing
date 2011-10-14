@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import java.util.*;
 
 import org.fsarmiento.invoicing.*;
+import org.fsarmiento.invoicing.customer.*;
 import org.fsarmiento.invoicing.exception.*;
 import org.junit.*;
 import org.springframework.beans.factory.annotation.*;
@@ -15,6 +16,9 @@ public class AddressHibernateDaoTest extends AbstractHibernateDaoTest {
 
     @Autowired
     private AddressDao addressDao;
+
+    @Autowired
+    private CustomerDao customerDao;
 
     @Test
     public void saveAddress() {
@@ -26,14 +30,19 @@ public class AddressHibernateDaoTest extends AbstractHibernateDaoTest {
 	address.setPostCode("AB12 3CF");
 	address.setCountry("UK");
 	address.setTelNo("01234567891");
-	address.setTelNo("01234987654");
+	address.setType(AddressType.SHIPPING);
 	assertNull(address.getId());
+
+	String testAccount = "ACCOUNT2";
+	Customer customer = customerDao.getByAccount(testAccount);
+	address.setOwner(customer);
 
 	addressDao.save(address);
 	assertNotNull(address.getId());
 
 	Address savedAddress = addressDao.getById(address.getId());
 	assertThat(savedAddress, equalTo(address));
+	assertThat(savedAddress.getOwner(), equalTo(customer));
     }
 
     @Test

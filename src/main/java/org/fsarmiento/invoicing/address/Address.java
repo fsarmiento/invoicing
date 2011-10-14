@@ -1,8 +1,11 @@
 package org.fsarmiento.invoicing.address;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 
 import org.fsarmiento.invoicing.*;
+import org.fsarmiento.invoicing.customer.*;
+import org.hibernate.annotations.*;
 
 /**
  * The Class Address.
@@ -12,6 +15,11 @@ import org.fsarmiento.invoicing.*;
  */
 @Entity(name = "address")
 public class Address extends AbstractEntity {
+
+    @ManyToOne
+    @JoinColumn(name = "account", referencedColumnName = "account")
+    @ForeignKey(name = "customer_address_fk")
+    private Customer owner;
 
     @Column(length = 64, nullable = false)
     private String address1;
@@ -36,6 +44,48 @@ public class Address extends AbstractEntity {
 
     @Column(length = 20)
     private String faxNo;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 16)
+    private AddressType type;
+
+    /**
+     * Gets the owner.
+     * 
+     * @return the owner
+     */
+    public Customer getOwner() {
+	return owner;
+    }
+
+    /**
+     * Sets the owner.
+     * 
+     * @param owner
+     *            the new owner
+     */
+    public void setOwner(Customer owner) {
+	this.owner = owner;
+    }
+
+    /**
+     * Gets the type.
+     * 
+     * @return the type
+     */
+    public AddressType getType() {
+	return type;
+    }
+
+    /**
+     * Sets the type.
+     * 
+     * @param type
+     *            the new type
+     */
+    public void setType(AddressType type) {
+	this.type = type;
+    }
 
     /**
      * Gets the address1.

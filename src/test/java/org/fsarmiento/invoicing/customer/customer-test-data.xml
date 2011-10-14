@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dataset>		
-	<address id="1" address1="1 Test Road" address2="" city="No Bug City" county="Success County" postcode="AB1 3CD" country=""/>
-	<address id="2" address1="2 Another Road" address2="Along Test Address" city="Bright City" county="Bucks" postcode="CD21 4EF" country="United Kingdom"/>
-	<address id="3" address1="7 Paris Road" address2="" city="Paris" county="" postcode="12345" country="France"/>
-
-	<customer id="1" account="ACCOUNT1" name="test name1" onHold="false" billingAddressId="1" shippingAddressId="1"/>
-	<customer id="2" account="ACCOUNT2" name="duplicated name" onHold="false" billingAddressId="2"/>
-	<customer id="3" account="ACCOUNT3" name="duplicated name" onHold="true" billingAddressId="3"/>
-	<customer id="4" account="ACCOUNTONHOLD" name="Mr Not Payer" onHold="true"/>
+<dataset>
+	<customer id="1" account="ACCOUNT1" title="Mr" firstname="testfirst1" lastname="testlast1" status="ACTIVE" />
+	<customer id="2" account="ACCOUNT2" title="Mrs" firstname="testfirst2" lastname="duplicated" status="ACTIVE" />
+	<customer id="3" account="ACCOUNT3" title="Mrs" firstname="testfirst3" lastname="duplicated" status="ACTIVE" />
+	<customer id="4" account="ACCOUNTONHOLD" title="Mr" firstname="testfirst4" lastname="testlast4" status="ON_HOLD" />
+	
+	<address id="1" address1="1 Test Road" address2="" city="No Bug City" county="Success County" postcode="AB1 3CD" country="" type="BILLING" account="ACCOUNT1"/>
+	<address id="2" address1="2 Another Road" address2="Along Test Address" city="Bright City" county="Bucks" postcode="CD21 4EF" country="United Kingdom" type="BILLING" account="ACCOUNT2"/>
+	<address id="3" address1="7 Paris Road" address2="" city="Paris" county="" postcode="12345" country="France" type="BILLING" account="ACCOUNT3"/>
 </dataset>

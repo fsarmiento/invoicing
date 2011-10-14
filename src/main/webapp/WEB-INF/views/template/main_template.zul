@@ -7,8 +7,8 @@
 				<label value="This is the header"/>
 			</window>
 		</north>
-		<center>
-			<vlayout self="@{insert(mainBody)}"/>
+		<center border="none" flex="true">
+			<vbox self="@{insert(mainBody)}" style="overflow: auto" />
 		</center>
 		<south height="5%" border="none">
 			<window id="footer" border="none">

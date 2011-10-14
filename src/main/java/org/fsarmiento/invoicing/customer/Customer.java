@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import org.fsarmiento.invoicing.*;
 import org.fsarmiento.invoicing.address.*;
 import org.fsarmiento.invoicing.application.*;
+import org.fsarmiento.invoicing.util.*;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.CascadeType;
 
@@ -24,29 +25,26 @@ public class Customer extends AbstractEntity {
     @Index(name = "account_index")
     private String account;
 
-    @Column(length = 64)
-    private String name;
+    @Column(length = 16)
+    private String title;
 
-    @Column(columnDefinition = "tinyint(1) default 0")
-    private Boolean onHold = Boolean.FALSE;
+    @Column(length = 32)
+    private String firstname;
 
-    @ManyToOne(cascade = { javax.persistence.CascadeType.PERSIST,
-	    javax.persistence.CascadeType.MERGE,
-	    javax.persistence.CascadeType.REFRESH })
-    @JoinColumn(name = "billingAddressId")
-    @ForeignKey(name = "billing_address_fk")
-    private Address billingAddress;
-
-    @ManyToOne(cascade = { javax.persistence.CascadeType.PERSIST,
-	    javax.persistence.CascadeType.MERGE,
-	    javax.persistence.CascadeType.REFRESH })
-    @JoinColumn(name = "shippingAddressId")
-    @ForeignKey(name = "shipping_address_fk")
-    private Address shippingAddress;
+    @Column(length = 32, nullable = false)
+    private String lastname;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     @Cascade({ CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     private Set<Application> applications = new HashSet<Application>();
+
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+    @Cascade({ CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    private Set<Address> addresses = new HashSet<Address>();
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 16)
+    private CustomerStatus status;
 
     /**
      * Gets the account.
@@ -68,79 +66,91 @@ public class Customer extends AbstractEntity {
     }
 
     /**
+     * Gets the title.
+     * 
+     * @return the title
+     */
+    public String getTitle() {
+	return title;
+    }
+
+    /**
+     * Sets the title.
+     * 
+     * @param title
+     *            the new title
+     */
+    public void setTitle(String title) {
+	this.title = title;
+    }
+
+    /**
+     * Gets the firstname.
+     * 
+     * @return the firstname
+     */
+    public String getFirstname() {
+	return firstname;
+    }
+
+    /**
+     * Sets the firstname.
+     * 
+     * @param firstname
+     *            the new firstname
+     */
+    public void setFirstname(String firstname) {
+	this.firstname = firstname;
+    }
+
+    /**
+     * Gets the lastname.
+     * 
+     * @return the lastname
+     */
+    public String getLastname() {
+	return lastname;
+    }
+
+    /**
+     * Sets the lastname.
+     * 
+     * @param lastname
+     *            the new lastname
+     */
+    public void setLastname(String lastname) {
+	this.lastname = lastname;
+    }
+
+    /**
      * Gets the name.
      * 
      * @return the name
      */
     public String getName() {
-	return name;
-    }
+	StringBuilder name = new StringBuilder();
 
-    /**
-     * Sets the name.
-     * 
-     * @param name
-     *            the new name
-     */
-    public void setName(String name) {
-	this.name = name;
-    }
+	if (!StringUtil.isNullOrEmpty(title)) {
+	    name.append(title);
+	}
 
-    /**
-     * Gets the on hold.
-     * 
-     * @return the on hold
-     */
-    public Boolean getOnHold() {
-	return onHold == null ? Boolean.FALSE : onHold;
-    }
+	if (!StringUtil.isNullOrEmpty(firstname)) {
+	    if (name.length() > 0) {
+		name.append(" ");
+	    }
 
-    /**
-     * Sets the on hold.
-     * 
-     * @param onHold
-     *            the new on hold
-     */
-    public void setOnHold(Boolean onHold) {
-	this.onHold = onHold;
-    }
+	    name.append(firstname);
+	}
 
-    /**
-     * Gets the billing address.
-     * 
-     * @return the billing address
-     */
-    public Address getBillingAddress() {
-	return billingAddress;
-    }
+	if (!StringUtil.isNullOrEmpty(lastname)) {
+	    if (name.length() > 0) {
+		name.append(" ");
+	    }
 
-    /**
-     * Sets the billing address.
-     * 
-     * @param billingAddress
-     *            the new billing address
-     */
-    public void setBillingAddress(Address billingAddress) {
-	this.billingAddress = billingAddress;
-    }
+	    name.append(lastname);
+	}
 
-    /**
-     * Gets the shipping address.
-     * 
-     * @return the shipping address
-     */
-    public Address getShippingAddress() {
-	return shippingAddress;
-    }
-
-    /**
-     * Sets the shipping address.
-     * 
-     * @param shippingAddress
-     *            the new shipping address
-     */
-    public void setShippingAddress(Address shippingAddress) {
-	this.shippingAddress = shippingAddress;
+	return name.toString();
     }
 
     /**
@@ -158,7 +168,7 @@ public class Customer extends AbstractEntity {
      * @param applications
      *            the new applications
      */
-    public void setApplications(Set<Application> applications) {
+    private void setApplications(Set<Application> applications) {
 	this.applications = applications;
     }
 
@@ -184,4 +194,57 @@ public class Customer extends AbstractEntity {
 	application.setOwner(null);
     }
 
+    /**
+     * Gets the addresses.
+     * 
+     * @return the addresses
+     */
+    public Set<Address> getAddresses() {
+	return addresses;
+    }
+
+    private void setAddresses(Set<Address> addresses) {
+	this.addresses = addresses;
+    }
+
+    /**
+     * Adds the address.
+     * 
+     * @param address
+     *            the address
+     */
+    public void addAddress(Address address) {
+	address.setOwner(this);
+	this.addresses.add(address);
+    }
+
+    /**
+     * Removes the address.
+     * 
+     * @param address
+     *            the address
+     */
+    public void removeAddress(Address address) {
+	this.addresses.remove(address);
+	address.setOwner(null);
+    }
+
+    /**
+     * Gets the status.
+     * 
+     * @return the status
+     */
+    public CustomerStatus getStatus() {
+	return status;
+    }
+
+    /**
+     * Sets the status.
+     * 
+     * @param status
+     *            the new status
+     */
+    public void setStatus(CustomerStatus status) {
+	this.status = status;
+    }
 }
